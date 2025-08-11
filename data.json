@@ -1,0 +1,36 @@
+{
+  "projects": [
+    {
+      "title": "Project Alpha",
+      "description": "A cool web application built with React and Tailwind CSS. It manages tasks and provides a calendar view.",
+      "repoLink": "https://github.com/your-username/project-alpha",
+      "screenshot": "https://placehold.co/600x400/2563eb/ffffff?text=Project+Alpha"
+    },
+    {
+      "title": "Project Beta",
+      "description": "An interactive data visualization tool using D3.js to display sales trends over time. Very insightful!",
+      "repoLink": "https://github.com/your-username/project-beta",
+      "screenshot": "https://placehold.co/600x400/10b981/ffffff?text=Project+Beta"
+    },
+    {
+      "title": "Project Gamma",
+      "description": "A simple mobile game created with JavaScript and HTML Canvas. It's a fun endless runner game.",
+      "repoLink": "https://github.com/your-username/project-gamma",
+      "screenshot": "https://placehold.co/600x400/f97316/ffffff?text=Project+Gamma"
+    }
+  ],
+  "certificates": [
+    "https://placehold.co/400x300/a3e635/000000?text=Certificate+1",
+    "https://placehold.co/400x300/fde047/000000?text=Certificate+2",
+    "https://placehold.co/400x300/e879f9/000000?text=Certificate+3",
+    "https://placehold.co/400x300/60a5fa/000000?text=Certificate+4",
+    "https://placehold.co/400x300/2563eb/ffffff?text=Certificate+5",
+    "https://placehold.co/400x300/10b981/ffffff?text=Certificate+6",
+    "https://placehold.co/400x300/a3e635/000000?text=Certificate+1",
+    "https://placehold.co/400x300/fde047/000000?text=Certificate+2",
+    "https://placehold.co/400x300/e879f9/000000?text=Certificate+3",
+    "https://placehold.co/400x300/60a5fa/000000?text=Certificate+4",
+    "https://placehold.co/400x300/2563eb/ffffff?text=Certificate+5",
+    "https://placehold.co/400x300/10b981/ffffff?text=Certificate+6"
+  ]
+}
