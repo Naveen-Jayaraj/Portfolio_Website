@@ -9,10 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-    <!-- NEW: Swiper.js for Blog Carousel -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        /* --- THEME & ENHANCED COLOR CONFIGURATION --- */
         :root {
             --bg-body-start: #f1f5f9; /* slate-100 */
             --bg-body-end: #e2e8f0; /* slate-200 */
@@ -41,7 +39,6 @@
             --swiper-nav-color: #f8fafc;
         }
 
-        /* --- GLOBAL STYLES & GRADIENT BACKGROUND --- */
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-body-start);
@@ -55,11 +52,10 @@
             transition: color 0.3s ease;
         }
         
-        a[href^="mailto:"], a[target="_blank"] {
-            color: var(--text-link);
+        a {
+           color: var(--text-link);
         }
 
-        /* --- CURSOR AURA EFFECT --- */
         #cursor-aura {
             position: fixed;
             top: 0;
@@ -78,7 +74,6 @@
              mix-blend-mode: screen;
         }
 
-        /* --- HEADER & NAVIGATION --- */
         .sticky-header {
             position: sticky;
             top: 1rem;
@@ -119,7 +114,6 @@
             transform-origin: bottom left;
         }
         
-        /* --- DYNAMIC & ANIMATED ELEMENTS --- */
         .section-container {
             display: none;
             animation: fadeIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
@@ -157,9 +151,21 @@
             transition: transform 0.3s ease;
         }
         
+        .social-icon {
+            color: var(--text-secondary);
+            transition: all 0.2s ease-in-out;
+        }
+        .social-icon:hover {
+            color: var(--text-primary);
+            transform: scale(1.1) translateY(-2px);
+        }
+        .dark .social-icon:hover {
+            color: var(--text-link);
+        }
+
         .gen-ai-button {
             position: relative;
-            background: linear-gradient(90deg, #6366f1, #a855f7); /* Indigo to Purple */
+            background: linear-gradient(90deg, #6366f1, #a855f7);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .gen-ai-button:hover {
@@ -195,7 +201,6 @@
             100% { transform: translate(-50%, 100px); opacity: 0; display: none; }
         }
 
-        /* --- THEME TOGGLE ICON ANIMATION --- */
         #theme-toggle svg {
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
@@ -210,7 +215,6 @@
             opacity: 1;
         }
 
-        /* --- TERMINAL STYLES --- */
         #terminal-body {
             scrollbar-width: thin;
             scrollbar-color: var(--text-secondary) transparent;
@@ -225,11 +229,10 @@
         #terminal-input { caret-color: var(--text-primary); }
         .terminal-output-command { color: var(--text-link); }
         .terminal-output-text { color: var(--text-primary); white-space: pre-wrap; }
-        .terminal-output-error { color: #f87171; } /* red-400 */
-        .terminal-help-command { color: #818cf8; font-weight: 600; } /* indigo-400 */
+        .terminal-output-error { color: #f87171; }
+        .terminal-help-command { color: #818cf8; font-weight: 600; }
         .terminal-help-description { color: var(--text-secondary); }
         
-        /* --- ENHANCED SORTABLEJS PHYSICS-BASED STYLES --- */
         #works-grid .themed-card, #certificates-grid .themed-card {
              cursor: grab;
         }
@@ -250,7 +253,6 @@
             opacity: 0.8;
         }
 
-        /* --- NEW: BLOG & SWIPER STYLES --- */
         .blog-post-card {
             margin-bottom: 2rem;
         }
@@ -268,7 +270,7 @@
             background: #eee;
         }
         .dark .swiper-slide {
-            background: #1e293b; /* slate-800 */
+            background: #1e293b;
         }
         .swiper-slide img, .swiper-slide video {
             display: block;
@@ -288,7 +290,6 @@
         .swiper-pagination-bullet-active {
             background: var(--swiper-nav-color);
         }
-
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4 sm:p-6 lg:p-8">
@@ -302,7 +303,6 @@
                 <li><a href="#about" class="nav-link text-sm sm:text-base px-3 py-2" data-target="about">About</a></li>
                 <li><a href="#works" class="nav-link text-sm sm:text-base px-3 py-2" data-target="works">Works</a></li>
                 <li><a href="#certificates" class="nav-link text-sm sm:text-base px-3 py-2" data-target="certificates">Certificates</a></li>
-                <!-- NEW: Blog Nav Link -->
                 <li><a href="#blog" class="nav-link text-sm sm:text-base px-3 py-2" data-target="blog">Blog</a></li>
                 <li><a href="#terminal" class="nav-link text-sm sm:text-base px-3 py-2" data-target="terminal">Terminal</a></li>
                 <li><a href="#contact" class="nav-link text-sm sm:text-base px-3 py-2" data-target="contact">Contact</a></li>
@@ -327,8 +327,23 @@
                  <p class="text-lg mb-6 font-semibold text-primary">AI Engineer & Full-Stack Developer</p>
                  <p class="leading-relaxed max-w-4xl mx-auto text-left sm:text-center text-base sm:text-lg">
                       I build high-impact AI solutions that bridge the gap between research and the real world. With expertise in computer vision, automation, and full-stack systems, I create tools that enhance safety, boost efficiency, and drive smarter decisions. From detecting road hazards in real-time with YOLOv8 at RedBus to deploying wildfire detection systems, my work focuses on creating tangible, positive change. I thrive on turning complex problems into elegant, functional applications.
+                      <br><br>
+                      <strong class="text-primary">You can find me across the web. Try typing <code class="text-indigo-500 dark:text-indigo-400 font-mono p-1 rounded bg-slate-200 dark:bg-slate-800">socials</code> into the terminal!</strong>
                  </p>
                  <a href="mailto:naveenpainthouse@gmail.com" class="inline-block mt-8 px-8 py-3 bg-indigo-600 dark:bg-indigo-500 text-white font-bold rounded-lg shadow-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">Get in Touch</a>
+                
+                 <div class="mt-10 flex justify-center gap-8">
+                    <a href="https://github.com/Naveen-Jayaraj" target="_blank" rel="noopener noreferrer" title="GitHub" class="social-icon">
+                        <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/naveen-jayaraj" target="_blank" rel="noopener noreferrer" title="LinkedIn" class="social-icon">
+                        <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -339,13 +354,11 @@
             <div id="image-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm" onclick="this.style.display='none'"><div class="p-4 bg-white dark:bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto" onclick="event.stopPropagation()"><img id="modal-image" class="rounded-lg shadow-2xl w-full h-auto" src="" alt="Certificate" /></div></div>
         </section>
         
-        <!-- NEW: BLOG SECTION -->
         <section id="blog" class="section-container">
             <div class="p-4 sm:p-6 lg:p-10">
                 <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Latest Updates</h2>
                 <div id="blog-posts-container" class="max-w-3xl mx-auto">
-                    <!-- Blog posts will be injected here -->
-                </div>
+                    </div>
             </div>
         </section>
 
@@ -382,12 +395,10 @@
 
     </main>
 
-    <!-- NEW: Swiper.js Script -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // --- CURSOR AURA LOGIC ---
         const aura = document.getElementById('cursor-aura');
         if (aura) {
             document.addEventListener('mousemove', (e) => {
@@ -400,7 +411,6 @@
             document.addEventListener('mouseup', () => { aura.style.transform = 'translate(-50%, -50%) scale(1)'; });
         }
 
-        // --- Theme Toggle Logic ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const docElement = document.documentElement;
         const applyTheme = (theme) => {
@@ -415,7 +425,6 @@
             applyTheme(newTheme);
         });
 
-        // --- Navigation Logic ---
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('.section-container');
         let terminalInitialized = false; 
@@ -444,7 +453,6 @@
             });
         });
 
-        // --- DYNAMIC CONTENT LOADING ---
         let portfolioProjects = [];
         fetch('data.json')
             .then(response => {
@@ -483,81 +491,78 @@
             })
             .catch(error => console.error('Error loading portfolio data:', error));
 
-        // --- NEW: BLOG LOADER ---
-        const sheetURL = 'https://opensheet.elk.sh/1L-Al7DhRB5vEdeU_UxK2ZX-_cT8ZuUUeJ26lGnb-i6I/Sheet1'; // <-- IMPORTANT: REPLACE WITH YOUR ID
+        const sheetURL = 'https://opensheet.elk.sh/1L-Al7DhRB5vEdeU_UxK2ZX-_cT8ZuUUeJ26lGnb-i6I/Sheet1';
         const blogContainer = document.getElementById('blog-posts-container');
         
         if (blogContainer) {
             fetch(sheetURL)
               .then(res => {
-                  if (!res.ok) { throw new Error("Network response was not ok. Check your Google Sheet URL and share settings."); }
+                  if (!res.ok) { throw new Error("Network response was not ok."); }
                   return res.json();
               })
               .then(posts => {
-                if (posts.length === 0) {
-                    blogContainer.innerHTML = '<p class="text-center text-secondary">No blog posts found. Add some to your Google Sheet!</p>';
-                    return;
-                }
-
-                posts.forEach((post, index) => {
-                  if (!post.Title || !post.MediaList) return; // Skip empty rows
-                  
-                  let mediaSlides = '';
-                  const mediaArray = post.MediaList.split(';');
-
-                  mediaArray.forEach(item => {
-                    let [url, type] = item.split(',').map(s => s.trim());
-                    
-                    if (!url || !type) return;
-                    type = type.toLowerCase();
-                    
-                    if (type === 'image' || type === 'gif') {
-                      mediaSlides += `<div class="swiper-slide"><img src="${url}" loading="lazy" alt="Blog media"></div>`;
-                    } else if (type === 'video') {
-                      if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                        const videoIdMatch = url.match(/(?:v=|\/)([a-zA-Z0-9_-]{11}).*/);
-                        if (videoIdMatch && videoIdMatch[1]) {
-                             mediaSlides += `<div class="swiper-slide"><iframe src="https://www.youtube.com/embed/${videoIdMatch[1]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
-                        }
-                      } else {
-                        mediaSlides += `<div class="swiper-slide"><video controls muted loop playsinline><source src="${url}" type="video/mp4">Your browser does not support the video tag.</video></div>`;
-                      }
-                    }
-                  });
-
-                  const postElement = document.createElement('div');
-                  postElement.className = 'themed-card rounded-xl p-6 sm:p-8 blog-post-card';
-                  postElement.innerHTML = `
-                      <h3 class="text-2xl font-bold mb-1 text-primary">${post.Title}</h3>
-                      <p class="text-sm text-secondary mb-4">${new Date(post.Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                      <p class="text-primary leading-relaxed">${post.Content}</p>
-                      ${mediaSlides ? `
-                      <div class="swiper blog-swiper-${index}">
-                        <div class="swiper-wrapper">${mediaSlides}</div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-pagination"></div>
-                      </div>` : ''}
-                  `;
-                  blogContainer.appendChild(postElement);
-
-                  if (mediaSlides) {
-                      new Swiper(`.blog-swiper-${index}`, {
-                          loop: mediaArray.length > 1,
-                          navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-                          pagination: { el: ".swiper-pagination", clickable: true },
-                      });
+                  if (posts.length === 0) {
+                      blogContainer.innerHTML = '<p class="text-center text-secondary">No blog posts found.</p>';
+                      return;
                   }
-                });
+
+                  posts.forEach((post, index) => {
+                      if (!post.Title || !post.MediaList) return;
+                      
+                      let mediaSlides = '';
+                      const mediaArray = post.MediaList.split(';');
+
+                      mediaArray.forEach(item => {
+                          let [url, type] = item.split(',').map(s => s.trim());
+                          
+                          if (!url || !type) return;
+                          type = type.toLowerCase();
+                          
+                          if (type === 'image' || type === 'gif') {
+                            mediaSlides += `<div class="swiper-slide"><img src="${url}" loading="lazy" alt="Blog media"></div>`;
+                          } else if (type === 'video') {
+                            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                              const videoIdMatch = url.match(/(?:v=|\/)([a-zA-Z0-9_-]{11}).*/);
+                              if (videoIdMatch && videoIdMatch[1]) {
+                                   mediaSlides += `<div class="swiper-slide"><iframe src="https://www.youtube.com/embed/${videoIdMatch[1]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+                              }
+                            } else {
+                              mediaSlides += `<div class="swiper-slide"><video controls muted loop playsinline><source src="${url}" type="video/mp4">Your browser does not support the video tag.</video></div>`;
+                            }
+                          }
+                      });
+
+                      const postElement = document.createElement('div');
+                      postElement.className = 'themed-card rounded-xl p-6 sm:p-8 blog-post-card';
+                      postElement.innerHTML = `
+                          <h3 class="text-2xl font-bold mb-1 text-primary">${post.Title}</h3>
+                          <p class="text-sm text-secondary mb-4">${new Date(post.Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                          <p class="text-primary leading-relaxed">${post.Content}</p>
+                          ${mediaSlides ? `
+                          <div class="swiper blog-swiper-${index}">
+                            <div class="swiper-wrapper">${mediaSlides}</div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-pagination"></div>
+                          </div>` : ''}
+                      `;
+                      blogContainer.appendChild(postElement);
+
+                      if (mediaSlides) {
+                          new Swiper(`.blog-swiper-${index}`, {
+                              loop: mediaArray.length > 1,
+                              navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+                              pagination: { el: ".swiper-pagination", clickable: true },
+                          });
+                      }
+                  });
               })
               .catch(error => {
-                console.error("Error fetching blog posts:", error);
-                blogContainer.innerHTML = `<p class="text-center text-red-500">Could not load blog posts. Please check the console for errors.</p>`;
+                  console.error("Error fetching blog posts:", error);
+                  blogContainer.innerHTML = `<p class="text-center text-red-500">Could not load blog posts.</p>`;
               });
         }
 
-
-        // --- MODAL & HELPERS ---
         const imageModal = document.getElementById('image-modal');
         const modalImage = document.getElementById('modal-image');
         window.showModal = (imageUrl) => {
@@ -577,7 +582,6 @@
             navigator.clipboard.writeText(text).then(() => showMessageBox('Repository link copied!')).catch(err => console.error('Failed to copy: ', err));
         };
         
-        // --- INTERACTIVE TERMINAL & GAMES LOGIC ---
         const terminalOutput = document.getElementById('terminal-output');
         const terminalInput = document.getElementById('terminal-input');
         const terminalInputLine = document.getElementById('terminal-input-line');
@@ -607,21 +611,44 @@
             switch (command) {
                 case 'help':
                     const helpText = `<strong class="text-primary">Available Commands:</strong><div class="grid grid-cols-[100px_auto] gap-x-4 mt-2">
-                        <span class="terminal-help-command">help</span><span class="terminal-help-description">Show this list of commands.</span>
-                        <span class="terminal-help-command">about</span><span class="terminal-help-description">Display my professional summary.</span>
-                        <span class="terminal-help-command">projects</span><span class="terminal-help-description">List all my featured projects.</span>
-                        <span class="terminal-help-command">blog</span><span class="terminal-help-description">Go to the blog section.</span>
-                        <span class="terminal-help-command">skills</span><span class="terminal-help-description">Show a list of my technical skills.</span>
-                        <span class="terminal-help-command">contact</span><span class="terminal-help-description">Display my contact email.</span>
-                        <span class="terminal-help-command">theme</span><span class="terminal-help-description">Change theme. Usage: theme [light|dark]</span>
-                        <span class="terminal-help-command">repo</span><span class="terminal-help-description">Opens the portfolio's GitHub repository.</span>
-                        <span class="terminal-help-command">snake</span><span class="terminal-help-description">Play a game of snake.</span>
-                        <span class="terminal-help-command">dino</span><span class="terminal-help-description">Play a game of dino run.</span>
-                        <span class="terminal-help-command">clear</span><span class="terminal-help-description">Clear the terminal screen.</span></div>`;
+                            <span class="terminal-help-command">help</span><span class="terminal-help-description">Show this list of commands.</span>
+                            <span class="terminal-help-command">about</span><span class="terminal-help-description">Display my professional summary.</span>
+                            <span class="terminal-help-command">socials</span><span class="terminal-help-description">Display my social media links.</span>
+                            <span class="terminal-help-command">resume</span><span class="terminal-help-description">Open my resume in a new tab.</span>
+                            <span class="terminal-help-command">projects</span><span class="terminal-help-description">List all my featured projects.</span>
+                            <span class="terminal-help-command">blog</span><span class="terminal-help-description">Go to the blog section.</span>
+                            <span class="terminal-help-command">skills</span><span class="terminal-help-description">Show a list of my technical skills.</span>
+                            <span class="terminal-help-command">contact</span><span class="terminal-help-description">Display my contact email.</span>
+                            <span class="terminal-help-command">theme</span><span class="terminal-help-description">Change theme. Usage: theme [light|dark]</span>
+                            <span class="terminal-help-command">repo</span><span class="terminal-help-description">Opens the portfolio's GitHub repository.</span>
+                            <span class="terminal-help-command">snake</span><span class="terminal-help-description">Play a game of snake.</span>
+                            <span class="terminal-help-command">dino</span><span class="terminal-help-description">Play a game of dino run.</span>
+                            <span class="terminal-help-command">clear</span><span class="terminal-help-description">Clear the terminal screen.</span></div>`;
                     printToTerminal(helpText);
                     break;
                 case 'about': printToTerminal(document.querySelector('#about .leading-relaxed').textContent.trim()); break;
                 case 'blog': window.location.hash = 'blog'; break;
+                case 'socials':
+                    const socialsText = `
+                        <strong class="text-primary">Connect with me:</strong>
+                        <div class="grid grid-cols-[100px_auto] gap-x-4 mt-2">
+                            <span class="terminal-help-command">
+                                <a href="https://github.com/Naveen-Jayaraj" target="_blank" rel="noopener noreferrer" class="text-link underline">GitHub</a>
+                            </span>
+                            <span class="terminal-help-description">/Naveen-Jayaraj - Check out my code.</span>
+                            
+                            <span class="terminal-help-command">
+                                <a href="https://www.linkedin.com/in/naveen-jayaraj" target="_blank" rel="noopener noreferrer" class="text-link underline">LinkedIn</a>
+                            </span>
+                            <span class="terminal-help-description">/in/naveen-jayaraj - Let's connect.</span>
+                        </div>
+                    `;
+                    printToTerminal(socialsText);
+                    break;
+                case 'resume':
+                    printToTerminal("Opening resume in a new tab...");
+                    window.open('resume.pdf', '_blank');
+                    break;
                 case 'projects':
                     if (portfolioProjects.length > 0) {
                         let projectList = '<strong class="text-primary">Projects:</strong><ul class="list-disc list-inside mt-1">';
@@ -650,7 +677,7 @@
                 case 'dino': startDinoGame(); break;
                 case 'clear': terminalOutput.innerHTML = ''; break;
                 case '': break;
-                default: printToTerminal(`Command not found: ${cmd}. Type 'help' for a list of available commands.`, 'terminal-output-error'); break;
+                default: printToTerminal(`Command not found: ${cmd}. Type 'help' for a list of commands.`, 'terminal-output-error'); break;
             }
         };
 
