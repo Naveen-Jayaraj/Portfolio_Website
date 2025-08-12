@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <!-- NEW: Swiper.js for Blog Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         /* --- THEME & ENHANCED COLOR CONFIGURATION --- */
         :root {
@@ -23,6 +25,7 @@
             --card-hover-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
             --header-bg: rgba(255, 255, 255, 0.6);
             --aura-color: rgba(79, 70, 229, 0.15);
+            --swiper-nav-color: #0f172a;
         }
 
         .dark {
@@ -35,6 +38,7 @@
             --card-bg: rgba(30, 41, 59, 0.7); /* slate-800 with transparency */
             --header-bg: rgba(30, 41, 59, 0.5); /* slate-800 with transparency */
             --aura-color: rgba(129, 140, 248, 0.1);
+            --swiper-nav-color: #f8fafc;
         }
 
         /* --- GLOBAL STYLES & GRADIENT BACKGROUND --- */
@@ -55,7 +59,7 @@
             color: var(--text-link);
         }
 
-        /* --- NEW: CURSOR AURA EFFECT --- */
+        /* --- CURSOR AURA EFFECT --- */
         #cursor-aura {
             position: fixed;
             top: 0;
@@ -246,11 +250,49 @@
             opacity: 0.8;
         }
 
+        /* --- NEW: BLOG & SWIPER STYLES --- */
+        .blog-post-card {
+            margin-bottom: 2rem;
+        }
+        .swiper {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #eee;
+        }
+        .dark .swiper-slide {
+            background: #1e293b; /* slate-800 */
+        }
+        .swiper-slide img, .swiper-slide video {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+        }
+        .swiper-slide iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: var(--swiper-nav-color);
+            transition: color 0.3s ease;
+        }
+        .swiper-pagination-bullet-active {
+            background: var(--swiper-nav-color);
+        }
+
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4 sm:p-6 lg:p-8">
 
-    <!-- NEW: AURA ELEMENT -->
     <div id="cursor-aura"></div>
 
     <header class="sticky-header w-full max-w-4xl rounded-xl p-4 mb-8 flex items-center justify-between">
@@ -260,17 +302,15 @@
                 <li><a href="#about" class="nav-link text-sm sm:text-base px-3 py-2" data-target="about">About</a></li>
                 <li><a href="#works" class="nav-link text-sm sm:text-base px-3 py-2" data-target="works">Works</a></li>
                 <li><a href="#certificates" class="nav-link text-sm sm:text-base px-3 py-2" data-target="certificates">Certificates</a></li>
+                <!-- NEW: Blog Nav Link -->
+                <li><a href="#blog" class="nav-link text-sm sm:text-base px-3 py-2" data-target="blog">Blog</a></li>
                 <li><a href="#terminal" class="nav-link text-sm sm:text-base px-3 py-2" data-target="terminal">Terminal</a></li>
                 <li><a href="#contact" class="nav-link text-sm sm:text-base px-3 py-2" data-target="contact">Contact</a></li>
             </ul>
             <button id="theme-toggle" class="ml-4 p-2 rounded-full text-primary hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">
                 <div class="relative w-6 h-6">
-                    <svg id="sun-icon" class="h-6 w-6 absolute inset-0" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 5a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1zM4.222 4.222a1 1 0 0 1 1.414 0l1.414 1.414a1 1 0 0 1-1.414 1.414L4.222 5.636a1 1 0 0 1 0-1.414zm15.556 0a1 1 0 0 1 0 1.414l-1.414 1.414a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 0 1 1.414 0zM12 17a5 5 0 1 0 0-10a5 5 0 0 0 0 10zm0 4a1 1 0 0 1-1-1v-2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1zM2 12a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1zm18 0a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zM5.636 18.364a1 1 0 0 1-1.414 0l-1.414-1.414a1 1 0 1 1 1.414-1.414l1.414 1.414a1 1 0 0 1 0 1.414zm14.142 0a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 1 1 1.414 1.414l-1.414 1.414z"></path>
-                    </svg>
-                    <svg id="moon-icon" class="h-6 w-6 absolute inset-0" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M17.293 13.293A8 8 0 0 1 6.707 2.707a8.001 8.001 0 1 0 10.586 10.586z"></path>
-                    </svg>
+                    <svg id="sun-icon" class="h-6 w-6 absolute inset-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 5a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1zM4.222 4.222a1 1 0 0 1 1.414 0l1.414 1.414a1 1 0 0 1-1.414 1.414L4.222 5.636a1 1 0 0 1 0-1.414zm15.556 0a1 1 0 0 1 0 1.414l-1.414 1.414a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 0 1 1.414 0zM12 17a5 5 0 1 0 0-10a5 5 0 0 0 0 10zm0 4a1 1 0 0 1-1-1v-2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1zM2 12a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1zm18 0a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zM5.636 18.364a1 1 0 0 1-1.414 0l-1.414-1.414a1 1 0 1 1 1.414-1.414l1.414 1.414a1 1 0 0 1 0 1.414zm14.142 0a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 1 1 1.414 1.414l-1.414 1.414z"></path></svg>
+                    <svg id="moon-icon" class="h-6 w-6 absolute inset-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.293 13.293A8 8 0 0 1 6.707 2.707a8.001 8.001 0 1 0 10.586 10.586z"></path></svg>
                 </div>
             </button>
         </nav>
@@ -281,59 +321,44 @@
         <section id="about" class="section-container active">
             <div class="p-6 sm:p-10 rounded-xl text-center">
                  <div class="h-40 w-40 mx-auto mb-6 bg-gradient-to-br from-indigo-200 to-purple-200 dark:from-indigo-900 dark:to-purple-900 rounded-full flex items-center justify-center overflow-hidden ring-4 ring-white/10">
-                      <svg class="h-24 w-24 text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                      </svg>
+                      <svg class="h-24 w-24 text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                  </div>
                  <h2 class="text-4xl sm:text-6xl font-extrabold mb-2"><span class="hero-name">Naveen Jayaraj</span></h2>
                  <p class="text-lg mb-6 font-semibold text-primary">AI Engineer & Full-Stack Developer</p>
                  <p class="leading-relaxed max-w-4xl mx-auto text-left sm:text-center text-base sm:text-lg">
                       I build high-impact AI solutions that bridge the gap between research and the real world. With expertise in computer vision, automation, and full-stack systems, I create tools that enhance safety, boost efficiency, and drive smarter decisions. From detecting road hazards in real-time with YOLOv8 at RedBus to deploying wildfire detection systems, my work focuses on creating tangible, positive change. I thrive on turning complex problems into elegant, functional applications.
                  </p>
-                 <a href="mailto:naveenpainthouse@gmail.com" class="inline-block mt-8 px-8 py-3 bg-indigo-600 dark:bg-indigo-500 text-white font-bold rounded-lg shadow-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                      Get in Touch
-                 </a>
+                 <a href="mailto:naveenpainthouse@gmail.com" class="inline-block mt-8 px-8 py-3 bg-indigo-600 dark:bg-indigo-500 text-white font-bold rounded-lg shadow-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">Get in Touch</a>
             </div>
         </section>
 
-        <section id="works" class="section-container">
-            <div class="p-4 sm:p-6 lg:p-10">
-                <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">My Projects</h2>
-                <div id="works-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Project cards will be injected here -->
-                </div>
-            </div>
-        </section>
+        <section id="works" class="section-container"><div class="p-4 sm:p-6 lg:p-10"><h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">My Projects</h2><div id="works-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div></div></section>
 
         <section id="certificates" class="section-container">
+            <div class="p-4 sm:p-6 lg:p-10"><h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Certifications</h2><div id="certificates-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div></div>
+            <div id="image-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm" onclick="this.style.display='none'"><div class="p-4 bg-white dark:bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto" onclick="event.stopPropagation()"><img id="modal-image" class="rounded-lg shadow-2xl w-full h-auto" src="" alt="Certificate" /></div></div>
+        </section>
+        
+        <!-- NEW: BLOG SECTION -->
+        <section id="blog" class="section-container">
             <div class="p-4 sm:p-6 lg:p-10">
-                <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Certifications</h2>
-                <div id="certificates-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                     <!-- Certificate cards will be injected here -->
-                </div>
-            </div>
-            
-            <div id="image-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm" onclick="this.style.display='none'">
-                <div class="p-4 bg-white dark:bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto" onclick="event.stopPropagation()">
-                    <img id="modal-image" class="rounded-lg shadow-2xl w-full h-auto" src="" alt="Certificate" />
+                <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Latest Updates</h2>
+                <div id="blog-posts-container" class="max-w-3xl mx-auto">
+                    <!-- Blog posts will be injected here -->
                 </div>
             </div>
         </section>
-        
+
         <section id="terminal" class="section-container">
             <div class="p-4 sm:p-6 lg:p-10">
                 <div class="mx-auto max-w-4xl rounded-xl overflow-hidden shadow-2xl themed-card border-none">
                     <div class="bg-slate-200 dark:bg-slate-900 p-3 flex items-center gap-2">
-                        <div class="flex space-x-1.5">
-                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                        </div>
+                        <div class="flex space-x-1.5"><div class="w-3 h-3 rounded-full bg-red-500"></div><div class="w-3 h-3 rounded-full bg-yellow-500"></div><div class="w-3 h-3 rounded-full bg-green-500"></div></div>
                         <p class="flex-grow text-center text-sm font-mono text-secondary">naveen-portfolio -- -bash</p>
                     </div>
                     <div id="terminal-body" class="p-4 h-96 overflow-y-auto font-mono text-sm" onclick="document.getElementById('terminal-input').focus()">
                         <div id="terminal-output"></div>
-                        <div class="flex items-center">
+                        <div id="terminal-input-line" class="flex items-center">
                             <span class="text-green-400 dark:text-green-500">guest@portfolio:~$</span>
                             <input type="text" id="terminal-input" class="flex-1 bg-transparent border-none outline-none text-primary pl-2" autocomplete="off" autofocus>
                         </div>
@@ -342,26 +367,14 @@
             </div>
         </section>
 
-
         <section id="contact" class="section-container">
             <div class="p-4 sm:p-6 lg:p-10">
                 <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Contact Me</h2>
                 <form id="contact-form" action="https://formspree.io/f/mqalnzrp" method="POST" class="max-w-2xl mx-auto space-y-4">
-                    <div>
-                        <label for="name" class="block text-lg font-semibold mb-2 text-primary">Name</label>
-                        <input type="text" id="name" name="name" placeholder="John Doe" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200">
-                    </div>
-                    <div>
-                        <label for="email" class="block text-lg font-semibold mb-2 text-primary">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="john.doe@example.com" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200">
-                    </div>
-                    <div>
-                        <label for="message" class="block text-lg font-semibold mb-2 text-primary">Message</label>
-                        <textarea id="message" name="message" rows="5" placeholder="Your message here..." required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"></textarea>
-                    </div>
-                    <button type="submit" class="w-full px-6 py-4 bg-indigo-600 dark:bg-indigo-500 text-white font-bold rounded-lg shadow-md hover:bg-indigo-700 dark:hover:bg-indigo-600 hover:-translate-y-0.5 transform transition-all duration-200">
-                        Send Message
-                    </button>
+                    <div><label for="name" class="block text-lg font-semibold mb-2 text-primary">Name</label><input type="text" id="name" name="name" placeholder="John Doe" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"></div>
+                    <div><label for="email" class="block text-lg font-semibold mb-2 text-primary">Email Address</label><input type="email" id="email" name="email" placeholder="john.doe@example.com" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"></div>
+                    <div><label for="message" class="block text-lg font-semibold mb-2 text-primary">Message</label><textarea id="message" name="message" rows="5" placeholder="Your message here..." required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"></textarea></div>
+                    <button type="submit" class="w-full px-6 py-4 bg-indigo-600 dark:bg-indigo-500 text-white font-bold rounded-lg shadow-md hover:bg-indigo-700 dark:hover:bg-indigo-600 hover:-translate-y-0.5 transform transition-all duration-200">Send Message</button>
                     <div id="form-status" class="pt-2 text-center font-semibold"></div>
                 </form>
             </div>
@@ -369,85 +382,59 @@
 
     </main>
 
+    <!-- NEW: Swiper.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // --- NEW: CURSOR AURA LOGIC ---
+        // --- CURSOR AURA LOGIC ---
         const aura = document.getElementById('cursor-aura');
         if (aura) {
             document.addEventListener('mousemove', (e) => {
-                // Use requestAnimationFrame for smoother animation
                 requestAnimationFrame(() => {
                     aura.style.left = `${e.clientX}px`;
                     aura.style.top = `${e.clientY}px`;
                 });
             });
-
-            // Add a click effect
-            document.addEventListener('mousedown', () => {
-                aura.style.height = '450px';
-                aura.style.width = '450px';
-            });
-            document.addEventListener('mouseup', () => {
-                aura.style.height = '500px';
-                aura.style.width = '500px';
-            });
+            document.addEventListener('mousedown', () => { aura.style.transform = 'translate(-50%, -50%) scale(0.9)'; });
+            document.addEventListener('mouseup', () => { aura.style.transform = 'translate(-50%, -50%) scale(1)'; });
         }
-
 
         // --- Theme Toggle Logic ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const docElement = document.documentElement;
-
         const applyTheme = (theme) => {
-            if (theme === 'dark') {
-                docElement.classList.add('dark');
-                docElement.classList.remove('light');
-            } else {
-                docElement.classList.add('light');
-                docElement.classList.remove('dark');
-            }
+            docElement.classList.toggle('dark', theme === 'dark');
+            docElement.classList.toggle('light', theme !== 'dark');
         };
-        
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-        applyTheme(initialTheme);
-
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(savedTheme);
         themeToggleBtn.addEventListener('click', () => {
             const newTheme = docElement.classList.contains('dark') ? 'light' : 'dark';
             localStorage.setItem('theme', newTheme);
             applyTheme(newTheme);
         });
 
-
         // --- Navigation Logic ---
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('.section-container');
         let terminalInitialized = false; 
-
         function showSection(targetId) {
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
+            sections.forEach(section => section.classList.remove('active'));
             const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-
+            if (targetSection) targetSection.classList.add('active');
             navLinks.forEach(link => {
-                link.classList.remove('active-link');
-                if (link.dataset.target === targetId) {
-                    link.classList.add('active-link');
-                }
+                link.classList.toggle('active-link', link.dataset.target === targetId);
             });
-
             if (targetId === 'terminal' && !terminalInitialized) {
                 showWelcomeMessage();
                 terminalInitialized = true;
             }
         }
-
+        const handleHashChange = () => showSection(window.location.hash.substring(1) || 'about');
+        window.addEventListener('hashchange', handleHashChange);
+        window.addEventListener('popstate', handleHashChange);
+        handleHashChange();
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -456,20 +443,9 @@
                 showSection(targetId);
             });
         });
-        
-        const handleHashChange = () => {
-            const hash = window.location.hash.substring(1) || 'about';
-            showSection(hash);
-        };
-
-        window.addEventListener('hashchange', handleHashChange);
-        window.addEventListener('popstate', handleHashChange);
-        handleHashChange();
-
 
         // --- DYNAMIC CONTENT LOADING ---
         let portfolioProjects = [];
-
         fetch('data.json')
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -477,115 +453,150 @@
             })
             .then(data => {
                 portfolioProjects = data.projects;
-                
                 const worksGrid = document.getElementById('works-grid');
-                worksGrid.innerHTML = '';
-                data.projects.forEach((project, index) => {
-                    const projectCard = `
-                        <div class="themed-card rounded-xl flex flex-col overflow-hidden" style="animation-delay: ${index * 100}ms; opacity: 0; animation-fill-mode: forwards;" class="fade-in-item">
-                            <div class="overflow-hidden">
-                               <img src="${project.screenshot}" alt="Screenshot of ${project.title}" class="rounded-t-lg object-cover w-full h-56">
+                worksGrid.innerHTML = data.projects.map((project, index) => `
+                    <div class="themed-card rounded-xl flex flex-col overflow-hidden" style="animation-delay: ${index * 100}ms; opacity: 0; animation-fill-mode: forwards;" class="fade-in-item">
+                        <div class="overflow-hidden"><img src="${project.screenshot}" alt="Screenshot of ${project.title}" class="rounded-t-lg object-cover w-full h-56"></div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-primary">${project.title}</h3>
+                            <p class="mb-4 flex-grow project-description" id="project-desc-${index}">${project.description}</p>
+                            <div class="flex items-center justify-between mt-auto pt-4 space-x-2 border-t border-[var(--border-color)]">
+                                <a href="${project.repoLink}" target="_blank" rel="noopener noreferrer" class="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">View Repo</a>
+                                <button onclick="copyToClipboard('${project.repoLink}')" class="px-3 py-1 bg-slate-200 dark:bg-slate-700 rounded-md text-sm hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors duration-200">Copy Link</button>
                             </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <h3 class="text-xl font-bold mb-2 text-primary">${project.title}</h3>
-                                <p class="mb-4 flex-grow project-description" id="project-desc-${index}">${project.description}</p>
-                                <div class="flex items-center justify-between mt-auto pt-4 space-x-2 border-t border-[var(--border-color)]">
-                                    <a href="${project.repoLink}" target="_blank" rel="noopener noreferrer" class="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
-                                        View Repo
-                                    </a>
-                                    <button onclick="copyToClipboard('${project.repoLink}')" class="px-3 py-1 bg-slate-200 dark:bg-slate-700 rounded-md text-sm hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors duration-200">
-                                        Copy Link
-                                    </button>
-                                </div>
-                                <div class="mt-4">
-                                    <button onclick="generateDescription(${index})" id="gen-btn-${index}" class="gen-ai-button w-full px-4 py-2 text-white font-bold rounded-lg shadow-md transition-all duration-200">
-                                        ✨ Regenerate Description
-                                    </button>
-                                </div>
+                            <div class="mt-4">
+                                <button onclick="generateDescription(${index})" id="gen-btn-${index}" class="gen-ai-button w-full px-4 py-2 text-white font-bold rounded-lg shadow-md transition-all duration-200">✨ Regenerate Description</button>
                             </div>
                         </div>
-                    `;
-                    worksGrid.innerHTML += projectCard;
-                });
+                    </div>`).join('');
                 document.querySelectorAll('#works-grid .themed-card').forEach(card => card.style.animation = `fadeIn 0.5s ease-out ${card.style.animationDelay} forwards`);
 
                 const certificatesGrid = document.getElementById('certificates-grid');
-                certificatesGrid.innerHTML = '';
-                data.certificates.forEach(certUrl => {
-                    const certImage = `
-                        <div class="themed-card rounded-lg overflow-hidden">
-                           <img src="${certUrl}" alt="Certification" class="object-cover w-full h-full cursor-pointer" onclick="showModal('${certUrl}')">
-                        </div>
-                    `;
-                    certificatesGrid.innerHTML += certImage;
-                });
+                certificatesGrid.innerHTML = data.certificates.map(certUrl => `
+                    <div class="themed-card rounded-lg overflow-hidden">
+                       <img src="${certUrl}" alt="Certification" class="object-cover w-full h-full cursor-pointer" onclick="showModal('${certUrl}')">
+                    </div>`).join('');
 
-                const sortableOptions = {
-                    animation: 350,
-                    chosenClass: 'sortable-chosen',
-                    ghostClass: 'sortable-ghost',
-                    swap: true,
-                    swapClass: 'sortable-swap-active',
-                    forceFallback: true,
-                };
-
+                const sortableOptions = { animation: 350, chosenClass: 'sortable-chosen', ghostClass: 'sortable-ghost', swap: true, swapClass: 'sortable-swap-active', forceFallback: true };
                 new Sortable(worksGrid, sortableOptions);
                 new Sortable(certificatesGrid, sortableOptions);
             })
             .catch(error => console.error('Error loading portfolio data:', error));
 
+        // --- NEW: BLOG LOADER ---
+        const sheetURL = 'https://opensheet.elk.sh/1L-Al7DhRB5vEdeU_UxK2ZX-_cT8ZuUUeJ26lGnb-i6I/Sheet1'; // <-- IMPORTANT: REPLACE WITH YOUR ID
+        const blogContainer = document.getElementById('blog-posts-container');
         
-        // --- Certificate Modal ---
+        if (blogContainer) {
+            fetch(sheetURL)
+              .then(res => {
+                  if (!res.ok) { throw new Error("Network response was not ok. Check your Google Sheet URL and share settings."); }
+                  return res.json();
+              })
+              .then(posts => {
+                if (posts.length === 0) {
+                    blogContainer.innerHTML = '<p class="text-center text-secondary">No blog posts found. Add some to your Google Sheet!</p>';
+                    return;
+                }
+
+                posts.forEach((post, index) => {
+                  if (!post.Title || !post.MediaList) return; // Skip empty rows
+                  
+                  let mediaSlides = '';
+                  const mediaArray = post.MediaList.split(';');
+
+                  mediaArray.forEach(item => {
+                    let [url, type] = item.split(',').map(s => s.trim());
+                    
+                    if (!url || !type) return;
+                    type = type.toLowerCase();
+                    
+                    if (type === 'image' || type === 'gif') {
+                      mediaSlides += `<div class="swiper-slide"><img src="${url}" loading="lazy" alt="Blog media"></div>`;
+                    } else if (type === 'video') {
+                      if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                        const videoIdMatch = url.match(/(?:v=|\/)([a-zA-Z0-9_-]{11}).*/);
+                        if (videoIdMatch && videoIdMatch[1]) {
+                             mediaSlides += `<div class="swiper-slide"><iframe src="https://www.youtube.com/embed/${videoIdMatch[1]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+                        }
+                      } else {
+                        mediaSlides += `<div class="swiper-slide"><video controls muted loop playsinline><source src="${url}" type="video/mp4">Your browser does not support the video tag.</video></div>`;
+                      }
+                    }
+                  });
+
+                  const postElement = document.createElement('div');
+                  postElement.className = 'themed-card rounded-xl p-6 sm:p-8 blog-post-card';
+                  postElement.innerHTML = `
+                      <h3 class="text-2xl font-bold mb-1 text-primary">${post.Title}</h3>
+                      <p class="text-sm text-secondary mb-4">${new Date(post.Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                      <p class="text-primary leading-relaxed">${post.Content}</p>
+                      ${mediaSlides ? `
+                      <div class="swiper blog-swiper-${index}">
+                        <div class="swiper-wrapper">${mediaSlides}</div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                      </div>` : ''}
+                  `;
+                  blogContainer.appendChild(postElement);
+
+                  if (mediaSlides) {
+                      new Swiper(`.blog-swiper-${index}`, {
+                          loop: mediaArray.length > 1,
+                          navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+                          pagination: { el: ".swiper-pagination", clickable: true },
+                      });
+                  }
+                });
+              })
+              .catch(error => {
+                console.error("Error fetching blog posts:", error);
+                blogContainer.innerHTML = `<p class="text-center text-red-500">Could not load blog posts. Please check the console for errors.</p>`;
+              });
+        }
+
+
+        // --- MODAL & HELPERS ---
         const imageModal = document.getElementById('image-modal');
         const modalImage = document.getElementById('modal-image');
         window.showModal = (imageUrl) => {
             modalImage.src = imageUrl;
             imageModal.style.display = 'flex';
         };
-
-
-        // --- Global Helper Functions ---
         function showMessageBox(message) {
             const existingBox = document.querySelector('.message-box');
             if (existingBox) existingBox.remove();
-            
             const messageBox = document.createElement('div');
             messageBox.className = 'message-box';
             messageBox.textContent = message;
             document.body.appendChild(messageBox);
             setTimeout(() => messageBox.remove(), 3500);
         }
-
         window.copyToClipboard = (text) => {
-            navigator.clipboard.writeText(text).then(() => {
-                showMessageBox('Repository link copied!');
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-                showMessageBox('Failed to copy link.');
-            });
+            navigator.clipboard.writeText(text).then(() => showMessageBox('Repository link copied!')).catch(err => console.error('Failed to copy: ', err));
         };
         
-        // --- Interactive Terminal Logic ---
+        // --- INTERACTIVE TERMINAL & GAMES LOGIC ---
         const terminalOutput = document.getElementById('terminal-output');
         const terminalInput = document.getElementById('terminal-input');
+        const terminalInputLine = document.getElementById('terminal-input-line');
         const terminalBody = document.getElementById('terminal-body');
+        let isGameActive = false;
+        let gameLoop;
+        let gameKeyListener;
 
-        const skillsData = {
-            'Languages': 'Python, JavaScript, SQL, HTML/CSS',
-            'AI/ML': 'TensorFlow, PyTorch, Scikit-learn, YOLOv8, OpenCV, Pandas',
-            'Backend': 'Node.js, Flask, REST APIs',
-            'Frontend': 'React, Tailwind CSS, HTML5',
-            'Tools': 'Docker, Git/GitHub, GCP, VS Code'
-        };
-
+        const skillsData = { 'Languages': 'Python, JavaScript, SQL, HTML/CSS', 'AI/ML': 'TensorFlow, PyTorch, Scikit-learn, YOLOv8, OpenCV, Pandas', 'Backend': 'Node.js, Flask, REST APIs', 'Frontend': 'React, Tailwind CSS, HTML5', 'Tools': 'Docker, Git/GitHub, GCP, VS Code' };
         const printToTerminal = (html, styleClass = 'terminal-output-text') => {
-            terminalOutput.innerHTML += `<div class="${styleClass}">${html}</div>`;
+            const line = document.createElement('div');
+            line.className = styleClass;
+            line.innerHTML = html;
+            terminalOutput.appendChild(line);
             terminalBody.scrollTop = terminalBody.scrollHeight;
         };
-        
         const printCommand = (command) => {
             const prompt = `<span class="text-green-400 dark:text-green-500">guest@portfolio:~$</span>`;
-            terminalOutput.innerHTML += `<div>${prompt} <span class="terminal-output-text">${command}</span></div>`;
+            printToTerminal(`${prompt} <span class="terminal-output-text">${command}</span>`);
         };
 
         const executeCommand = (cmd) => {
@@ -595,93 +606,148 @@
 
             switch (command) {
                 case 'help':
-                    const helpText = `
-<strong class="text-primary">Available Commands:</strong>
-<div class="grid grid-cols-[100px_auto] gap-x-4 mt-2">
-  <span class="terminal-help-command">help</span>        <span class="terminal-help-description">Show this list of commands.</span>
-  <span class="terminal-help-command">about</span>       <span class="terminal-help-description">Display my professional summary.</span>
-  <span class="terminal-help-command">projects</span>    <span class="terminal-help-description">List all my featured projects.</span>
-  <span class="terminal-help-command">skills</span>      <span class="terminal-help-description">Show a list of my technical skills.</span>
-  <span class="terminal-help-command">contact</span>     <span class="terminal-help-description">Display my contact email.</span>
-  <span class="terminal-help-command">theme</span>       <span class="terminal-help-description">Change theme. Usage: theme [light|dark]</span>
-  <span class="terminal-help-command">repo</span>        <span class="terminal-help-description">Opens the portfolio's GitHub repository.</span>
-  <span class="terminal-help-command">clear</span>       <span class="terminal-help-description">Clear the terminal screen.</span>
-</div>
-`;
+                    const helpText = `<strong class="text-primary">Available Commands:</strong><div class="grid grid-cols-[100px_auto] gap-x-4 mt-2">
+                        <span class="terminal-help-command">help</span><span class="terminal-help-description">Show this list of commands.</span>
+                        <span class="terminal-help-command">about</span><span class="terminal-help-description">Display my professional summary.</span>
+                        <span class="terminal-help-command">projects</span><span class="terminal-help-description">List all my featured projects.</span>
+                        <span class="terminal-help-command">blog</span><span class="terminal-help-description">Go to the blog section.</span>
+                        <span class="terminal-help-command">skills</span><span class="terminal-help-description">Show a list of my technical skills.</span>
+                        <span class="terminal-help-command">contact</span><span class="terminal-help-description">Display my contact email.</span>
+                        <span class="terminal-help-command">theme</span><span class="terminal-help-description">Change theme. Usage: theme [light|dark]</span>
+                        <span class="terminal-help-command">repo</span><span class="terminal-help-description">Opens the portfolio's GitHub repository.</span>
+                        <span class="terminal-help-command">snake</span><span class="terminal-help-description">Play a game of snake.</span>
+                        <span class="terminal-help-command">dino</span><span class="terminal-help-description">Play a game of dino run.</span>
+                        <span class="terminal-help-command">clear</span><span class="terminal-help-description">Clear the terminal screen.</span></div>`;
                     printToTerminal(helpText);
                     break;
-
-                case 'about':
-                    const aboutText = document.querySelector('#about .leading-relaxed').textContent.trim();
-                    printToTerminal(aboutText);
-                    break;
-
+                case 'about': printToTerminal(document.querySelector('#about .leading-relaxed').textContent.trim()); break;
+                case 'blog': window.location.hash = 'blog'; break;
                 case 'projects':
                     if (portfolioProjects.length > 0) {
                         let projectList = '<strong class="text-primary">Projects:</strong><ul class="list-disc list-inside mt-1">';
-                        portfolioProjects.forEach(p => {
-                            projectList += `<li class="text-primary"><span class="terminal-output-command">${p.title}</span> - ${p.repoLink}</li>`;
-                        });
-                        projectList += '</ul>';
-                        printToTerminal(projectList);
-                    } else {
-                        printToTerminal('Projects are still loading or failed to load. Try again in a moment.', 'terminal-output-error');
-                    }
+                        portfolioProjects.forEach(p => { projectList += `<li class="text-primary"><span class="terminal-output-command">${p.title}</span> - ${p.repoLink}</li>`; });
+                        printToTerminal(projectList + '</ul>');
+                    } else { printToTerminal('Projects are still loading...', 'terminal-output-error'); }
                     break;
-                
                 case 'skills':
                     let skillsOutput = '<strong class="text-primary">Technical Skills:</strong><div class="mt-1">';
-                    for (const [category, skills] of Object.entries(skillsData)) {
-                        skillsOutput += `<div class="flex"><strong class="w-24 text-indigo-400">${category}:</strong><span>${skills}</span></div>`;
-                    }
-                    skillsOutput += '</div>';
-                    printToTerminal(skillsOutput);
+                    for (const [category, skills] of Object.entries(skillsData)) { skillsOutput += `<div class="flex"><strong class="w-24 text-indigo-400">${category}:</strong><span>${skills}</span></div>`; }
+                    printToTerminal(skillsOutput + '</div>');
                     break;
-
-                case 'contact':
-                    printToTerminal(`You can reach me at: <a href="mailto:naveenpainthouse@gmail.com" class="text-link underline">naveenpainthouse@gmail.com</a>`);
-                    break;
-
+                case 'contact': printToTerminal(`You can reach me at: <a href="mailto:naveenpainthouse@gmail.com" class="text-link underline">naveenpainthouse@gmail.com</a>`); break;
                 case 'theme':
                     if (args.length === 1 && (args[0] === 'light' || args[0] === 'dark')) {
                         applyTheme(args[0]);
                         localStorage.setItem('theme', args[0]);
                         printToTerminal(`Theme changed to ${args[0]}.`);
-                    } else {
-                        printToTerminal(`Usage: theme [light|dark]`, 'terminal-output-error');
-                    }
+                    } else { printToTerminal(`Usage: theme [light|dark]`, 'terminal-output-error'); }
                     break;
-                
                 case 'repo':
                     printToTerminal("Opening repository in a new tab...");
                     window.open("https://github.com/NaveenJayaraj/portfolio-website", "_blank");
                     break;
-
-                case 'clear':
-                    terminalOutput.innerHTML = '';
-                    break;
-                    
-                case '':
-                    break; 
-
-                default:
-                    printToTerminal(`Command not found: ${cmd}. Type 'help' for a list of available commands.`, 'terminal-output-error');
-                    break;
+                case 'snake': startSnakeGame(); break;
+                case 'dino': startDinoGame(); break;
+                case 'clear': terminalOutput.innerHTML = ''; break;
+                case '': break;
+                default: printToTerminal(`Command not found: ${cmd}. Type 'help' for a list of available commands.`, 'terminal-output-error'); break;
             }
         };
-        
+
+        const endGame = (gameName, score) => {
+            clearInterval(gameLoop);
+            window.removeEventListener('keydown', gameKeyListener);
+            isGameActive = false;
+            terminalInputLine.style.display = 'flex';
+            printToTerminal(`<strong class="text-primary">Game Over!</strong> Final score for ${gameName}: ${score}`);
+            terminalInput.focus();
+        };
+
+        const startSnakeGame = () => {
+            isGameActive = true;
+            terminalInputLine.style.display = 'none';
+            terminalOutput.innerHTML = '';
+            printToTerminal('Starting Snake... Use Arrow Keys to move. Press "q" to quit.');
+            const width = 20, height = 12;
+            let snake = [{x: 10, y: 6}], food = {}, direction = {x: 1, y: 0}, score = 0;
+            const placeFood = () => {
+                food = { x: Math.floor(Math.random() * width), y: Math.floor(Math.random() * height) };
+                if (snake.some(segment => segment.x === food.x && segment.y === food.y)) placeFood();
+            };
+            placeFood();
+            gameKeyListener = (e) => {
+                e.preventDefault();
+                if (e.key === 'q') endGame('Snake', score);
+                else if (e.key === 'ArrowUp' && direction.y === 0) direction = { x: 0, y: -1 };
+                else if (e.key === 'ArrowDown' && direction.y === 0) direction = { x: 0, y: 1 };
+                else if (e.key === 'ArrowLeft' && direction.x === 0) direction = { x: -1, y: 0 };
+                else if (e.key === 'ArrowRight' && direction.x === 0) direction = { x: 1, y: 0 };
+            };
+            window.addEventListener('keydown', gameKeyListener);
+            gameLoop = setInterval(() => {
+                const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+                if (head.x < 0 || head.x >= width || head.y < 0 || head.y >= height || snake.some(s => s.x === head.x && s.y === head.y)) {
+                    return endGame('Snake', score);
+                }
+                snake.unshift(head);
+                if (head.x === food.x && head.y === food.y) { score++; placeFood(); } else { snake.pop(); }
+                let grid = `Score: ${score}\n┌` + '──'.repeat(width) + '┐\n';
+                for (let y = 0; y < height; y++) {
+                    grid += '│';
+                    for (let x = 0; x < width; x++) {
+                        grid += snake.some(s => s.x === x && s.y === y) ? '<span class="text-green-500">■■</span>' : (food.x === x && food.y === y) ? '<span class="text-red-500">♥♥</span>' : '  ';
+                    }
+                    grid += '│\n';
+                }
+                grid += '└' + '──'.repeat(width) + '┘';
+                terminalOutput.innerHTML = `<div class="terminal-output-text">${grid}</div>`;
+            }, 150);
+        };
+
+        const startDinoGame = () => {
+            isGameActive = true;
+            terminalInputLine.style.display = 'none';
+            terminalOutput.innerHTML = '';
+            printToTerminal('Starting Dino Run... Press Space to jump. Press "q" to quit.');
+            const width = 40, height = 8;
+            let dino = { y: height - 1, vy: 0, isJumping: false };
+            let obstacles = [], frame = 0, score = 0;
+            gameKeyListener = (e) => {
+                e.preventDefault();
+                if (e.key === 'q') endGame('Dino', score);
+                if (e.code === 'Space' && !dino.isJumping) { dino.vy = -2.5; dino.isJumping = true; }
+            };
+            window.addEventListener('keydown', gameKeyListener);
+            gameLoop = setInterval(() => {
+                frame++; score++; dino.y += dino.vy; dino.vy += 0.15;
+                if (dino.y >= height - 1) { dino.y = height - 1; dino.vy = 0; dino.isJumping = false; }
+                if (frame % 50 === 0 && Math.random() > 0.5) { obstacles.push({ x: width -1, y: height - 1 }); }
+                obstacles.forEach(o => o.x--);
+                obstacles = obstacles.filter(o => o.x >= 0);
+                if(obstacles.some(o => o.x === 2 && Math.floor(dino.y) === o.y)) { return endGame('Dino', score); }
+                let grid = `Score: ${score}\n`;
+                for (let y = 0; y < height; y++) {
+                    let row = '';
+                    for (let x = 0; x < width; x++) {
+                        row += (x === 2 && y === Math.floor(dino.y)) ? '<span class="text-green-500">▲</span>' : obstacles.some(o => o.x === x && o.y === y) ? '<span class="text-red-500">■</span>' : ' ';
+                    }
+                    grid += row + '\n';
+                }
+                grid += '─'.repeat(width);
+                terminalOutput.innerHTML = `<div class="terminal-output-text">${grid}</div>`;
+            }, 50);
+        };
+
         const showWelcomeMessage = () => {
-            const welcome = `
-*********************************************************
+            const welcome = `*********************************************************
 * Welcome to Naveen Jayaraj's Interactive Portfolio!   *
 *********************************************************
-Type <span class="terminal-output-command">'help'</span> to see the list of available commands.
-            `;
+Type <span class="terminal-output-command">'help'</span> to see the list of available commands.`;
             printToTerminal(welcome);
         };
 
         terminalInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !isGameActive) {
                 const command = terminalInput.value.trim();
                 printCommand(command);
                 executeCommand(command);
@@ -689,22 +755,17 @@ Type <span class="terminal-output-command">'help'</span> to see the list of avai
             }
         });
 
-        // --- Gemini API Call ---
         window.generateDescription = async (index) => {
             const project = portfolioProjects[index];
             if (!project) return;
-
             const button = document.getElementById(`gen-btn-${index}`);
             const descriptionElement = document.getElementById(`project-desc-${index}`);
-            
             button.classList.add('loading');
             button.disabled = true;
             button.innerHTML = 'Generating...';
-
             const prompt = `Act as a professional copywriter. Write a more detailed and engaging description for a portfolio project. The project is titled "${project.title}" and its current description is: "${project.description}". Focus on the project's purpose, the technologies used, and the value it provides. Keep it concise, professional, and within 100 words. Do not use markdown.`;
-
             const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
-            const apiKey = "" // IMPORTANT: Add your Gemini API Key here
+            const apiKey = ""; // IMPORTANT: Add your Gemini API Key here
             if (!apiKey) {
                 console.error("API Key for Gemini is not set.");
                 descriptionElement.textContent = "Error: API Key is missing. Cannot generate description.";
@@ -714,25 +775,13 @@ Type <span class="terminal-output-command">'help'</span> to see the list of avai
                 return;
             }
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-
             try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`API request failed with status ${response.status}`);
-                }
-
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
                 const result = await response.json();
                 if (result.candidates && result.candidates[0]?.content?.parts[0]?.text) {
-                    const generatedText = result.candidates[0].content.parts[0].text;
-                    descriptionElement.textContent = generatedText;
-                } else {
-                    throw new Error("Invalid response structure from API.");
-                }
+                    descriptionElement.textContent = result.candidates[0].content.parts[0].text;
+                } else { throw new Error("Invalid response structure from API."); }
             } catch (error) {
                 console.error('Gemini API Error:', error);
                 descriptionElement.textContent = "Could not generate a new description. Please try again later.";
@@ -743,23 +792,15 @@ Type <span class="terminal-output-command">'help'</span> to see the list of avai
             }
         };
 
-        // --- Contact Form Handling ---
         const form = document.getElementById('contact-form');
         const formStatus = document.getElementById('form-status');
-
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
             formStatus.textContent = 'Sending...';
             formStatus.className = 'pt-2 text-center font-semibold text-primary';
-
             const data = new FormData(event.target);
             try {
-                const response = await fetch(event.target.action, {
-                    method: form.method,
-                    body: data,
-                    headers: { 'Accept': 'application/json' }
-                });
-
+                const response = await fetch(event.target.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } });
                 if (response.ok) {
                     formStatus.textContent = 'Message sent successfully!';
                     formStatus.classList.add('text-green-600', 'dark:text-green-400');
