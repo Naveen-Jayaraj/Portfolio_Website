@@ -4,56 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Naveen Jayaraj | AI Engineer Portfolio</title>
+    <link id="favicon-link" rel="icon" href="assets/logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         :root {
-            --bg-body-start: #f1f5f9; /* slate-100 */
-            --bg-body-end: #e2e8f0; /* slate-200 */
-            --text-primary: #0f172a; /* slate-900 */
-            --text-secondary: #475569; /* slate-600 */
-            --text-link: #4f46e5; /* indigo-600 */
-            --border-color: #e5e7eb; /* gray-200 */
-            --card-bg: rgba(255, 255, 255, 0.7);
+            /* Light Theme: Beige, Brown, Sienna, Hunter Green */
+            --bg-body-start: #f7f3e8; /* Beige */
+            --bg-body-end: #f0eae0; /* Darker Beige */
+            --text-primary: #4e423b; /* Dark Brown */
+            --text-secondary: #7a6c65; /* Medium Brown */
+            --text-link: #884a39; /* Sienna */
+            --text-accent: #3a5a40; /* Hunter Green */
+            --border-color: #e0d8cf; /* Light warm gray */
+            --card-bg: rgba(253, 251, 246, 0.7);
             --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
             --card-hover-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --header-bg: rgba(255, 255, 255, 0.6);
-            --aura-color: rgba(79, 70, 229, 0.15);
-            --swiper-nav-color: #0f172a;
+            --header-bg: rgba(253, 251, 246, 0.6);
+            --aura-color: rgba(136, 74, 57, 0.15); /* Sienna-based */
+            --swiper-nav-color: #4e423b;
         }
 
         .dark {
-            --bg-body-start: #0f172a; /* slate-900 */
-            --bg-body-end: #020617; /* slate-950 */
-            --text-primary: #f8fafc; /* slate-50 */
-            --text-secondary: #94a3b8; /* slate-400 */
-            --text-link: #818cf8; /* indigo-400 */
-            --border-color: #334155; /* slate-700 */
-            --card-bg: rgba(30, 41, 59, 0.7); /* slate-800 with transparency */
-            --header-bg: rgba(30, 41, 59, 0.5); /* slate-800 with transparency */
-            --aura-color: rgba(129, 140, 248, 0.1);
-            --swiper-nav-color: #f8fafc;
+            /* Dark Theme: Charcoal, Warm White, Pale Gold, Sage Green */
+            --bg-body-start: #1c1c1c; /* Charcoal */
+            --bg-body-end: #121212; /* Near Black */
+            --text-primary: #e8e6e3; /* Warm Off-white */
+            --text-secondary: #a39b93; /* Warm Gray */
+            --text-link: #c9a97e; /* Pale Gold */
+            --text-accent: #a3b18a; /* Sage Green */
+            --border-color: #3c3836; /* Dark Warm Gray */
+            --card-bg: rgba(38, 38, 38, 0.7); /* slate-800 with transparency */
+            --header-bg: rgba(38, 38, 38, 0.5); /* slate-800 with transparency */
+            --aura-color: rgba(201, 169, 126, 0.1); /* Gold-based */
+            --swiper-nav-color: #e8e6e3;
         }
 
+        /* +++ START: KONAMI CODE CSS +++ */
+        .matrix-mode {
+            --bg-body-start: #000;
+            --bg-body-end: #020;
+            --text-primary: #0f0;
+            --text-secondary: #0a0;
+            --text-link: #0f0;
+            --text-accent: #0f0;
+            --border-color: #030;
+            --card-bg: rgba(0, 20, 0, 0.7);
+            --header-bg: rgba(0, 10, 0, 0.5);
+            --aura-color: rgba(0, 255, 0, 0.1);
+            --swiper-nav-color: #0f0;
+            font-family: 'Courier New', Courier, monospace !important;
+        }
+        .matrix-mode h1, .matrix-mode h2, .matrix-mode h3, .matrix-mode h4,
+        .matrix-mode .text-primary, .matrix-mode .hero-name, .matrix-mode .nav-link,
+        .matrix-mode body, .matrix-mode .terminal-output-text {
+            font-family: 'Courier New', Courier, monospace !important;
+            text-shadow: 0 0 5px #0f0, 0 0 2px #0f0;
+        }
+        .matrix-mode .hero-name {
+            /* Override gradient in matrix mode */
+            background: linear-gradient(90deg, #0f0, #0a0);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        /* +++ END: KONAMI CODE CSS +++ */
+
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'EB Garamond', serif; /* Changed from Inter */
             background-color: var(--bg-body-start);
             background-image: radial-gradient(circle at top left, var(--bg-body-start), var(--bg-body-end));
             color: var(--text-secondary);
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        h1, h2, h3, h4, .text-primary {
+        /* Applied Playfair Display to headings and key elements */
+        h1, h2, h3, h4, .text-primary, .hero-name, .nav-link {
+            font-family: 'Playfair Display', serif;
             color: var(--text-primary);
             transition: color 0.3s ease;
         }
-        
+
         a {
-           color: var(--text-link);
+        color: var(--text-link);
         }
 
         #cursor-aura {
@@ -71,7 +108,7 @@
             mix-blend-mode: multiply;
         }
         .dark #cursor-aura {
-             mix-blend-mode: screen;
+            mix-blend-mode: screen;
         }
 
         .sticky-header {
@@ -113,7 +150,7 @@
             transform: scaleX(1);
             transform-origin: bottom left;
         }
-        
+
         .section-container {
             display: none;
             animation: fadeIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
@@ -127,13 +164,14 @@
         }
 
         .hero-name {
-            background: linear-gradient(90deg, #4f46e5, #ec4899);
+            /* Changed gradient to match new theme */
+            background: linear-gradient(90deg, var(--text-link), var(--text-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
         }
-        
+
         .themed-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -150,7 +188,7 @@
         .themed-card img {
             transition: transform 0.3s ease;
         }
-        
+
         .social-icon {
             color: var(--text-secondary);
             transition: all 0.2s ease-in-out;
@@ -163,31 +201,13 @@
             color: var(--text-link);
         }
 
-        .gen-ai-button {
-            position: relative;
-            background: linear-gradient(90deg, #6366f1, #a855f7);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .gen-ai-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
-        }
-        .gen-ai-button.loading {
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.6); }
-            70% { box-shadow: 0 0 0 10px rgba(168, 85, 247, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
-        }
-
         .message-box {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #10b981;
-            color: white;
+            background-color: var(--text-accent); /* Changed from green */
+            color: var(--bg-body-start); /* Changed from white */
             padding: 12px 24px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -229,15 +249,15 @@
         #terminal-input { caret-color: var(--text-primary); }
         .terminal-output-command { color: var(--text-link); }
         .terminal-output-text { color: var(--text-primary); white-space: pre-wrap; }
-        .terminal-output-error { color: #f87171; }
-        .terminal-help-command { color: #818cf8; font-weight: 600; }
+        .terminal-output-error { color: #c94c4c; } /* Classier red */
+        .terminal-help-command { color: var(--text-link); font-weight: 600; } /* Changed from purple */
         .terminal-help-description { color: var(--text-secondary); }
-        
+
         #works-grid .themed-card, #certificates-grid .themed-card {
-             cursor: grab;
+            cursor: grab;
         }
         #works-grid .themed-card:active, #certificates-grid .themed-card:active {
-             cursor: grabbing;
+            cursor: grabbing;
         }
         .sortable-ghost {
             opacity: 0;
@@ -255,7 +275,9 @@
 
         .blog-post-card {
             margin-bottom: 2rem;
+            text-decoration: none; /* Ensure link doesn't underline content */
         }
+        /* Remove swiper styles as they are no longer used by the blog */
         .swiper {
             width: 100%;
             height: auto;
@@ -297,7 +319,7 @@
     <div id="cursor-aura"></div>
 
     <header class="sticky-header w-full max-w-4xl rounded-xl p-4 mb-8 flex items-center justify-between">
-        <h1 class="text-xl font-bold text-primary">N.J.</h1>
+        <img id="header-logo" src="" alt="Naveen Jayaraj Logo" class="w-16 h-16 rounded-md object-contain flex-shrink-0">
         <nav class="flex items-center">
             <ul class="flex items-center gap-1 sm:gap-3 font-semibold">
                 <li><a href="#about" class="nav-link text-sm sm:text-base px-3 py-2" data-target="about">About</a></li>
@@ -315,24 +337,24 @@
             </button>
         </nav>
     </header>
-    
+
     <main class="w-full max-w-6xl">
 
         <section id="about" class="section-container active">
             <div class="p-6 sm:p-10 rounded-xl text-center">
-                 <div class="h-40 w-40 mx-auto mb-6 bg-gradient-to-br from-indigo-200 to-purple-200 dark:from-indigo-900 dark:to-purple-900 rounded-full flex items-center justify-center overflow-hidden ring-4 ring-white/10">
-                      <svg class="h-24 w-24 text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
-                 </div>
-                 <h2 class="text-4xl sm:text-6xl font-extrabold mb-2"><span class="hero-name">Naveen Jayaraj</span></h2>
-                 <p class="text-lg mb-6 font-semibold text-primary">AI Engineer & Full-Stack Developer</p>
-                 <p class="leading-relaxed max-w-4xl mx-auto text-left sm:text-center text-base sm:text-lg">
-                      I build high-impact AI solutions that bridge the gap between research and the real world. With expertise in computer vision, automation, and full-stack systems, I create tools that enhance safety, boost efficiency, and drive smarter decisions. From detecting road hazards in real-time with YOLOv8 at RedBus to deploying wildfire detection systems, my work focuses on creating tangible, positive change. I thrive on turning complex problems into elegant, functional applications.
-                      <br><br>
-                      <strong class="text-primary">You can find me across the web. Try typing <code class="text-indigo-500 dark:text-indigo-400 font-mono p-1 rounded bg-slate-200 dark:bg-slate-800">socials</code> into the terminal!</strong>
-                 </p>
-                 <a href="mailto:naveenpainthouse@gmail.com" class="inline-block mt-8 px-8 py-3 bg-indigo-600 dark:bg-indigo-500 text-white font-bold rounded-lg shadow-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">Get in Touch</a>
-                
-                 <div class="mt-10 flex justify-center gap-8">
+                <div class="h-40 w-40 mx-auto mb-6 bg-gradient-to-br from-amber-100 to-stone-200 dark:from-stone-700 dark:to-amber-900 rounded-full flex items-center justify-center overflow-hidden ring-4 ring-white/10">
+                    <svg class="h-24 w-24 text-[var(--text-link)] dark:text-[var(--text-link)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                </div>
+                <h2 class="text-4xl sm:text-6xl font-extrabold mb-2"><span class="hero-name">Naveen Jayaraj</span></h2>
+                <p class="text-lg mb-6 font-semibold text-primary">AI Engineer & Full-Stack Developer</p>
+                <p class="leading-relaxed max-w-4xl mx-auto text-left sm:text-center text-base sm:text-lg">
+                    I build high-impact AI solutions that bridge the gap between research and the real world. With expertise in computer vision, automation, and full-stack systems, I create tools that enhance safety, boost efficiency, and drive smarter decisions. From detecting road hazards in real-time with YOLOv8 at RedBus to deploying wildfire detection systems, my work focuses on creating tangible, positive change. I thrive on turning complex problems into elegant, functional applications.
+                    <br><br>
+                    <strong class="text-primary">You can find me across the web. Try typing <code class="text-[var(--text-link)] dark:text-[var(--text-link)] font-mono p-1 rounded bg-black/5 dark:bg-white/5">socials</code> into the terminal!</strong>
+                </p>
+                <a href="mailto:naveenpainthouse@gmail.com" class="inline-block mt-8 px-8 py-3 bg-[var(--text-link)] dark:bg-[var(--text-link)] text-[var(--bg-body-start)] dark:text-[var(--bg-body-end)] font-bold rounded-lg shadow-lg hover:opacity-90 dark:hover:opacity-90 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">Get in Touch</a>
+
+                <div class="mt-10 flex justify-center gap-8">
                     <a href="https://github.com/Naveen-Jayaraj" target="_blank" rel="noopener noreferrer" title="GitHub" class="social-icon">
                         <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" />
@@ -351,9 +373,9 @@
 
         <section id="certificates" class="section-container">
             <div class="p-4 sm:p-6 lg:p-10"><h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Certifications</h2><div id="certificates-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div></div>
-            <div id="image-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm" onclick="this.style.display='none'"><div class="p-4 bg-white dark:bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto" onclick="event.stopPropagation()"><img id="modal-image" class="rounded-lg shadow-2xl w-full h-auto" src="" alt="Certificate" /></div></div>
-        </section>
-        
+
+            </section>
+
         <section id="blog" class="section-container">
             <div class="p-4 sm:p-6 lg:p-10">
                 <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Latest Updates</h2>
@@ -372,7 +394,7 @@
                     <div id="terminal-body" class="p-4 h-96 overflow-y-auto font-mono text-sm" onclick="document.getElementById('terminal-input').focus()">
                         <div id="terminal-output"></div>
                         <div id="terminal-input-line" class="flex items-center">
-                            <span class="text-green-400 dark:text-green-500">guest@portfolio:~$</span>
+                            <span class="text-[var(--text-link)] dark:text-[var(--text-link)]">guest@portfolio:~$</span>
                             <input type="text" id="terminal-input" class="flex-1 bg-transparent border-none outline-none text-primary pl-2" autocomplete="off" autofocus>
                         </div>
                     </div>
@@ -383,11 +405,11 @@
         <section id="contact" class="section-container">
             <div class="p-4 sm:p-6 lg:p-10">
                 <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Contact Me</h2>
-                <form id="contact-form" action="https://formspree.io/f/mqalnzrp" method="POST" class="max-w-2xl mx-auto space-y-4">
-                    <div><label for="name" class="block text-lg font-semibold mb-2 text-primary">Name</label><input type="text" id="name" name="name" placeholder="John Doe" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"></div>
-                    <div><label for="email" class="block text-lg font-semibold mb-2 text-primary">Email Address</label><input type="email" id="email" name="email" placeholder="john.doe@example.com" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"></div>
-                    <div><label for="message" class="block text-lg font-semibold mb-2 text-primary">Message</label><textarea id="message" name="message" rows="5" placeholder="Your message here..." required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"></textarea></div>
-                    <button type="submit" class="w-full px-6 py-4 bg-indigo-600 dark:bg-indigo-500 text-white font-bold rounded-lg shadow-md hover:bg-indigo-700 dark:hover:bg-indigo-600 hover:-translate-y-0.5 transform transition-all duration-200">Send Message</button>
+                <form id="contact-form" action="https://formspree.io/f/xwpweeor" method="POST" class="max-w-2xl mx-auto space-y-4">
+                    <div><label for="name" class="block text-lg font-semibold mb-2 text-primary">Name</label><input type="text" id="name" name="name" placeholder="John Doe" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--text-link)] transition-all duration-200"></div>
+                    <div><label for="email" class="block text-lg font-semibold mb-2 text-primary">Email Address</label><input type="email" id="email" name="email" placeholder="john.doe@example.com" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--text-link)] transition-all duration-200"></div>
+                    <div><label for="message" class="block text-lg font-semibold mb-2 text-primary">Message</label><textarea id="message" name="message" rows="5" placeholder="Your message here..." required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--text-link)] transition-all duration-200"></textarea></div>
+                    <button type="submit" class="w-full px-6 py-4 bg-[var(--text-link)] dark:bg-[var(--text-link)] text-[var(--bg-body-start)] dark:text-[var(--bg-body-end)] font-bold rounded-lg shadow-md hover:opacity-90 dark:hover:opacity-90 hover:-translate-y-0.5 transform transition-all duration-200">Send Message</button>
                     <div id="form-status" class="pt-2 text-center font-semibold"></div>
                 </form>
             </div>
@@ -395,9 +417,36 @@
 
     </main>
 
+    <div id="image-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm" onclick="this.style.display='none'">
+        <div class="relative p-4 bg-white dark:bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto" onclick="event.stopPropagation()">
+
+            <button
+                onclick="document.getElementById('image-modal').style.display='none'"
+                class="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/50 dark:bg-black/50 rounded-full p-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-all z-10"
+                aria-label="Close modal"
+            >
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <img id="modal-image" class="rounded-lg shadow-2xl w-full h-auto" src="" alt="Certificate" />
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+
+        const timestamp = new Date().getTime(); // Keep timestamp accessible
+        const favicon = document.getElementById('favicon-link');
+        const headerLogo = document.getElementById('header-logo'); // Get logo element
+
+        // --- START: GIF Cache Bust (Favicon Only Now) ---
+        if (favicon) {
+            // UPDATED PATH
+            favicon.href = 'assets/logo.png?' + timestamp;
+        }
+        // --- END: GIF Cache Bust ---
 
         const aura = document.getElementById('cursor-aura');
         if (aura) {
@@ -413,21 +462,65 @@
 
         const themeToggleBtn = document.getElementById('theme-toggle');
         const docElement = document.documentElement;
+
+        // --- START: KONAMI CODE VARIABLES (Moved Up) ---
+        let konamiCode = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
+        let konamiIndex = 0;
+        // --- END: KONAMI CODE VARIABLES ---
+
+        function showMessageBox(message) { // Defined showMessageBox early
+            const existingBox = document.querySelector('.message-box');
+            if (existingBox) existingBox.remove();
+            const messageBox = document.createElement('div');
+            messageBox.className = 'message-box';
+            messageBox.textContent = message;
+            document.body.appendChild(messageBox);
+            setTimeout(() => messageBox.remove(), 3500);
+        }
+
         const applyTheme = (theme) => {
+            // --- Check if Matrix Mode is active ---
+            if (docElement.classList.contains('matrix-mode')) {
+                showMessageBox("No turning back now... (Exit Matrix Mode first)");
+                return; // Stop execution if in Matrix Mode
+            }
+            // --- End Check ---
+
             docElement.classList.toggle('dark', theme === 'dark');
             docElement.classList.toggle('light', theme !== 'dark');
+
+            // Update Header Logo Based on Theme (Only runs if not in Matrix Mode now)
+            if (headerLogo) {
+                const currentTimestamp = new Date().getTime(); // Get fresh timestamp
+                if (theme === 'dark') {
+                    // UPDATED PATH
+                    headerLogo.src = 'assets/white_logo_nobg.gif?' + currentTimestamp;
+                } else {
+                    // UPDATED PATH
+                    headerLogo.src = 'assets/black_logo_nobg.gif?' + currentTimestamp;
+                }
+            }
         };
+
         const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        applyTheme(savedTheme);
+        applyTheme(savedTheme); // Sets initial theme and logo
+
         themeToggleBtn.addEventListener('click', () => {
+            // --- Check if Matrix Mode is active ---
+            if (docElement.classList.contains('matrix-mode')) {
+                showMessageBox("The Matrix has you... (Exit Matrix Mode first)");
+                return; // Stop if in Matrix Mode
+            }
+            // --- End Check ---
             const newTheme = docElement.classList.contains('dark') ? 'light' : 'dark';
             localStorage.setItem('theme', newTheme);
-            applyTheme(newTheme);
+            applyTheme(newTheme); // Updates theme and potentially logo
         });
+
 
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('.section-container');
-        let terminalInitialized = false; 
+        let terminalInitialized = false;
         function showSection(targetId) {
             sections.forEach(section => section.classList.remove('active'));
             const targetSection = document.getElementById(targetId);
@@ -453,115 +546,243 @@
             });
         });
 
-        let portfolioProjects = [];
-        fetch('data.json')
-            .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.json();
-            })
-            .then(data => {
-                portfolioProjects = data.projects;
-                const worksGrid = document.getElementById('works-grid');
-                worksGrid.innerHTML = data.projects.map((project, index) => `
-                    <div class="themed-card rounded-xl flex flex-col overflow-hidden" style="animation-delay: ${index * 100}ms; opacity: 0; animation-fill-mode: forwards;" class="fade-in-item">
-                        <div class="overflow-hidden"><img src="${project.screenshot}" alt="Screenshot of ${project.title}" class="rounded-t-lg object-cover w-full h-56"></div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="text-xl font-bold mb-2 text-primary">${project.title}</h3>
-                            <p class="mb-4 flex-grow project-description" id="project-desc-${index}">${project.description}</p>
-                            <div class="flex items-center justify-between mt-auto pt-4 space-x-2 border-t border-[var(--border-color)]">
-                                <a href="${project.repoLink}" target="_blank" rel="noopener noreferrer" class="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">View Repo</a>
-                                <button onclick="copyToClipboard('${project.repoLink}')" class="px-3 py-1 bg-slate-200 dark:bg-slate-700 rounded-md text-sm hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors duration-200">Copy Link</button>
-                            </div>
-                            <div class="mt-4">
-                                <button onclick="generateDescription(${index})" id="gen-btn-${index}" class="gen-ai-button w-full px-4 py-2 text-white font-bold rounded-lg shadow-md transition-all duration-200">✨ Regenerate Description</button>
-                            </div>
-                        </div>
-                    </div>`).join('');
-                document.querySelectorAll('#works-grid .themed-card').forEach(card => card.style.animation = `fadeIn 0.5s ease-out ${card.style.animationDelay} forwards`);
+        // +++ START: CONTENTFUL CONFIG +++
+        const CONTENTFUL_SPACE_ID = 'hc7y74rkkqxq';
+        const CONTENTFUL_ACCESS_TOKEN = 'kL0oeHBxx5ho5oLZfbL1hDcgXREWmPAfOMWX_otT9-A';
+        // +++ END: CONTENTFUL CONFIG +++
 
-                const certificatesGrid = document.getElementById('certificates-grid');
-                certificatesGrid.innerHTML = data.certificates.map(certUrl => `
-                    <div class="themed-card rounded-lg overflow-hidden">
-                       <img src="${certUrl}" alt="Certification" class="object-cover w-full h-full cursor-pointer" onclick="showModal('${certUrl}')">
-                    </div>`).join('');
 
-                const sortableOptions = { animation: 350, chosenClass: 'sortable-chosen', ghostClass: 'sortable-ghost', swap: true, swapClass: 'sortable-swap-active', forceFallback: true };
-                new Sortable(worksGrid, sortableOptions);
-                new Sortable(certificatesGrid, sortableOptions);
-            })
-            .catch(error => console.error('Error loading portfolio data:', error));
+        // +++ START: CONTENTFUL CERTIFICATES +++
+        function loadCertificates() {
+            const certificatesGrid = document.getElementById('certificates-grid');
+            const contentfulURL = `https://cdn.contentful.com/spaces/${CONTENTFUL_SPACE_ID}/environments/master/entries?access_token=${CONTENTFUL_ACCESS_TOKEN}&content_type=certificate&include=1`;
 
-        const sheetURL = 'https://opensheet.elk.sh/1L-Al7DhRB5vEdeU_UxK2ZX-_cT8ZuUUeJ26lGnb-i6I/Sheet1';
-        const blogContainer = document.getElementById('blog-posts-container');
-        
-        if (blogContainer) {
-            fetch(sheetURL)
-              .then(res => {
-                  if (!res.ok) { throw new Error("Network response was not ok."); }
-                  return res.json();
-              })
-              .then(posts => {
-                  if (posts.length === 0) {
-                      blogContainer.innerHTML = '<p class="text-center text-secondary">No blog posts found.</p>';
-                      return;
-                  }
+            if (CONTENTFUL_SPACE_ID === 'YOUR_SPACE_ID_HERE' || CONTENTFUL_ACCESS_TOKEN === 'YOUR_ACCESS_TOKEN_HERE') {
+                certificatesGrid.innerHTML = `<p class="text-center col-span-full" style="color:#c94c4c;"><b>Error:</b> Contentful API keys are not set.<br>Please update them in the &lt;script&gt; block.</p>`;
+                return;
+            }
 
-                  posts.forEach((post, index) => {
-                      if (!post.Title || !post.MediaList) return;
-                      
-                      let mediaSlides = '';
-                      const mediaArray = post.MediaList.split(';');
+            fetch(contentfulURL)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Contentful API error: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data.includes || !data.includes.Asset) {
+                        console.warn("Contentful response (certificates) did not include Assets.");
+                        certificatesGrid.innerHTML = `<p class="text-center text-secondary col-span-full">No certificates found.</p>`;
+                        return;
+                    }
+                    if (!data.items || data.items.length === 0) {
+                        certificatesGrid.innerHTML = `<p class="text-center text-secondary col-span-full">No certificates found.</p>`;
+                        return;
+                    }
 
-                      mediaArray.forEach(item => {
-                          let [url, type] = item.split(',').map(s => s.trim());
-                          
-                          if (!url || !type) return;
-                          type = type.toLowerCase();
-                          
-                          if (type === 'image' || type === 'gif') {
-                            mediaSlides += `<div class="swiper-slide"><img src="${url}" loading="lazy" alt="Blog media"></div>`;
-                          } else if (type === 'video') {
-                            if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                              const videoIdMatch = url.match(/(?:v=|\/)([a-zA-Z0-9_-]{11}).*/);
-                              if (videoIdMatch && videoIdMatch[1]) {
-                                   mediaSlides += `<div class="swiper-slide"><iframe src="https://www.youtube.com/embed/${videoIdMatch[1]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
-                              }
-                            } else {
-                              mediaSlides += `<div class="swiper-slide"><video controls muted loop playsinline><source src="${url}" type="video/mp4">Your browser does not support the video tag.</video></div>`;
-                            }
-                          }
-                      });
+                    const assets = new Map(data.includes.Asset.map(asset => [asset.sys.id, asset.fields]));
 
-                      const postElement = document.createElement('div');
-                      postElement.className = 'themed-card rounded-xl p-6 sm:p-8 blog-post-card';
-                      postElement.innerHTML = `
-                          <h3 class="text-2xl font-bold mb-1 text-primary">${post.Title}</h3>
-                          <p class="text-sm text-secondary mb-4">${new Date(post.Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                          <p class="text-primary leading-relaxed">${post.Content}</p>
-                          ${mediaSlides ? `
-                          <div class="swiper blog-swiper-${index}">
-                            <div class="swiper-wrapper">${mediaSlides}</div>
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-pagination"></div>
-                          </div>` : ''}
-                      `;
-                      blogContainer.appendChild(postElement);
+                    certificatesGrid.innerHTML = data.items.map(item => {
+                        const title = item.fields.title || 'Certificate';
+                        if (!item.fields.image || !item.fields.image.sys) return '';
+                        const assetId = item.fields.image.sys.id;
+                        const asset = assets.get(assetId);
+                        if (!asset || !asset.file || !asset.file.url) return '';
 
-                      if (mediaSlides) {
-                          new Swiper(`.blog-swiper-${index}`, {
-                              loop: mediaArray.length > 1,
-                              navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-                              pagination: { el: ".swiper-pagination", clickable: true },
-                          });
-                      }
-                  });
-              })
-              .catch(error => {
-                  console.error("Error fetching blog posts:", error);
-                  blogContainer.innerHTML = `<p class="text-center text-red-500">Could not load blog posts.</p>`;
-              });
+                        const fullCertUrl = 'https:' + asset.file.url;
+                        const altText = asset.description || title;
+
+                        return `
+                            <div class="themed-card rounded-lg overflow-hidden">
+                            <img src="${fullCertUrl}" alt="${altText}" class="object-cover w-full h-full cursor-pointer" onclick="showModal('${fullCertUrl}')">
+                            </div>`;
+                    }).join('');
+
+                    new Sortable(certificatesGrid, {
+                        animation: 350,
+                        chosenClass: 'sortable-chosen',
+                        ghostClass: 'sortable-ghost',
+                        swap: true,
+                        swapClass: 'sortable-swap-active',
+                        forceFallback: true
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching certificates from Contentful:', error);
+                    certificatesGrid.innerHTML = `<p class="text-center col-span-full" style="color:#c94c4c;">Could not load certificates from Contentful.</p>`;
+                });
         }
+        // +++ END: CONTENTFUL CERTIFICATES +++
+
+
+        // +++ START: CONTENTFUL PROJECTS (NEW!) +++
+        function loadProjects() {
+            const worksGrid = document.getElementById('works-grid');
+            // We fetch 'project' content type and order by the 'order' field we created
+            const contentfulURL = `https://cdn.contentful.com/spaces/${CONTENTFUL_SPACE_ID}/environments/master/entries?access_token=${CONTENTFUL_ACCESS_TOKEN}&content_type=project&order=fields.order&include=1`;
+
+            fetch(contentfulURL)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Contentful API error: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data.includes || !data.includes.Asset) {
+                        console.warn("Contentful response (projects) did not include Assets.");
+                        worksGrid.innerHTML = `<p class="text-center text-secondary col-span-full">No projects found.</p>`;
+                        return;
+                    }
+                    if (!data.items || data.items.length === 0) {
+                        worksGrid.innerHTML = `<p class="text-center text-secondary col-span-full">No projects found.</p>`;
+                        return;
+                    }
+
+                    const assets = new Map(data.includes.Asset.map(asset => [asset.sys.id, asset.fields]));
+
+                    worksGrid.innerHTML = data.items.map((item, index) => {
+                        const fields = item.fields;
+
+                        // Get all fields from Contentful
+                        const title = fields.title || 'Untitled Project';
+                        const description = fields.description || 'No description provided.';
+                        const repoLink = fields.repoLink || '#';
+                        const liveLink = fields.liveLink || ''; // Default to empty string if not provided
+
+                        // Get screenshot URL
+                        if (!fields.screenshot || !fields.screenshot.sys) return '';
+                        const assetId = fields.screenshot.sys.id;
+                        const asset = assets.get(assetId);
+                        if (!asset || !asset.file || !asset.file.url) return '';
+
+                        const screenshotUrl = 'https:' + asset.file.url;
+                        const altText = asset.description || title;
+
+                        // This is the same logic you had, checking if liveLink exists
+                        const liveLinkButton = (liveLink && liveLink.trim() !== "") ?
+                            `<a href="${liveLink}" target="_blank" rel="noopener noreferrer" class="flex-1 text-center px-4 py-2 font-semibold text-[var(--text-link)] border border-[var(--text-link)] rounded-lg hover:bg-[var(--text-link)] hover:text-[var(--bg-body-start)] transition-all duration-200">
+                                View Site
+                            </a>` :
+                            '';
+
+                        // This HTML structure is copied directly from your data.json fetch
+                        return `
+                        <div class="themed-card rounded-xl flex flex-col overflow-hidden" style="animation-delay: ${index * 100}ms; opacity: 0; animation-fill-mode: forwards;" class="fade-in-item">
+                            <div class="overflow-hidden"><img src="${screenshotUrl}" alt="${altText}" class="rounded-t-lg object-cover w-full h-56"></div>
+                            <div class="p-6 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold mb-2 text-primary">${title}</h3>
+                                <p class="mb-4 flex-grow project-description">${description}</p>
+
+                                <div class="mt-auto pt-4 border-t border-[var(--border-color)]">
+                                    <div class="flex items-center justify-center gap-4">
+                                        ${liveLinkButton}
+                                        <a href="${repoLink}" target="_blank" rel="noopener noreferrer" class="flex-1 text-center px-4 py-2 font-semibold text-secondary border border-[var(--border-color)] rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200">
+                                            View Repo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                    }).join('');
+
+                    // Apply fade-in animation
+                    document.querySelectorAll('#works-grid .themed-card').forEach(card => card.style.animation = `fadeIn 0.5s ease-out ${card.style.animationDelay} forwards`);
+
+                    // Initialize Sortable for the works grid *after* items are loaded
+                    const sortableOptions = { animation: 350, chosenClass: 'sortable-chosen', ghostClass: 'sortable-ghost', swap: true, swapClass: 'sortable-swap-active', forceFallback: true };
+                    new Sortable(worksGrid, sortableOptions);
+
+                })
+                .catch(error => {
+                    console.error('Error fetching projects from Contentful:', error);
+                    worksGrid.innerHTML = `<p class="text-center col-span-full" style="color:#c94c4c;">Could not load projects from Contentful.</p>`;
+                });
+        }
+        // +++ END: CONTENTFUL PROJECTS +++
+
+
+        // +++ MODIFIED: Load both from Contentful +++
+        loadCertificates();
+        loadProjects();
+
+        // --- START: HASHNODE BLOG FETCH ---
+        const blogContainer = document.getElementById('blog-posts-container');
+        if (blogContainer) {
+            const HASHNODE_API = 'https://gql.hashnode.com/';
+            const HASHNODE_HOST = 'naveenjayaraj.hashnode.dev'; // your blog subdomain
+
+            const query = `
+            query GetUserPosts($host: String!) {
+                publication(host: $host) {
+                posts(first: 6) {
+                    edges {
+                    node {
+                        title
+                        brief
+                        slug
+                        url
+                        coverImage {
+                        url
+                        }
+                        publishedAt
+                    }
+                    }
+                }
+                }
+            }
+            `;
+
+            fetch(HASHNODE_API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    query,
+                    variables: { host: HASHNODE_HOST },
+                }),
+            })
+            .then(res => res.json())
+            .then(result => {
+                const posts = result.data?.publication?.posts?.edges?.map(edge => edge.node);
+
+                if (!posts || posts.length === 0) {
+                    blogContainer.innerHTML = '<p class="text-center text-secondary">No blog posts found on Hashnode.</p>';
+                    return;
+                }
+
+                blogContainer.innerHTML = '';
+                posts.forEach(post => {
+                    const postElement = document.createElement('a');
+                    postElement.href = post.url;
+                    postElement.target = '_blank';
+                    postElement.className = 'themed-card rounded-xl overflow-hidden block blog-post-card';
+
+                    const formattedDate = new Date(post.publishedAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    const coverImageHTML = post.coverImage?.url
+                        ? `<img src="${post.coverImage.url}" alt="${post.title}" class="w-full h-56 object-cover">`
+                        : '';
+
+                    postElement.innerHTML = `
+                        ${coverImageHTML}
+                        <div class="p-6 sm:p-8">
+                            <h3 class="text-2xl font-bold mb-1 text-primary">${post.title}</h3>
+                            <p class="text-sm text-secondary mb-4">${formattedDate}</p>
+                            <p class="text-primary leading-relaxed">${post.brief}</p>
+                            <span class="mt-4 inline-block font-semibold text-[var(--text-link)]">Read More &rarr;</span>
+                        </div>
+                    `;
+                    blogContainer.appendChild(postElement);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching Hashnode posts:", error);
+                blogContainer.innerHTML = `<p class="text-center" style="color:#c94c4c;">Could not load blog posts from Hashnode.</p>`;
+            });
+        }
+        // --- END: HASHNODE BLOG FETCH ---
+
+
 
         const imageModal = document.getElementById('image-modal');
         const modalImage = document.getElementById('modal-image');
@@ -569,24 +790,60 @@
             modalImage.src = imageUrl;
             imageModal.style.display = 'flex';
         };
-        function showMessageBox(message) {
-            const existingBox = document.querySelector('.message-box');
-            if (existingBox) existingBox.remove();
-            const messageBox = document.createElement('div');
-            messageBox.className = 'message-box';
-            messageBox.textContent = message;
-            document.body.appendChild(messageBox);
-            setTimeout(() => messageBox.remove(), 3500);
-        }
-        window.copyToClipboard = (text) => {
-            navigator.clipboard.writeText(text).then(() => showMessageBox('Repository link copied!')).catch(err => console.error('Failed to copy: ', err));
-        };
-        
+    // showMessageBox moved up before applyTheme
+
+        // --- START: KONAMI CODE LISTENER (Modified) ---
+        document.addEventListener('keydown', (e) => {
+            const lowerKey = e.key.toLowerCase();
+
+            // Only listen if not in terminal or contact form
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            const requiredKey = konamiCode[konamiIndex];
+
+            if (lowerKey === requiredKey) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    const willBeMatrix = !docElement.classList.contains('matrix-mode'); // Check state *before* toggling
+                    docElement.classList.toggle('matrix-mode');
+                    showMessageBox(willBeMatrix ? 'Welcome to the Matrix.' : 'Returning to the construct...');
+
+                    // Update Logo based on Matrix Mode toggle
+                    if (headerLogo) {
+                        const currentTimestamp = new Date().getTime(); // Get fresh timestamp
+                        if (willBeMatrix) {
+                            // UPDATED PATH
+                            headerLogo.src = 'assets/matrix_logo_nobg.gif?' + currentTimestamp;
+                        } else {
+                            // Manually set correct theme logo on exit
+                            const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                            if (currentTheme === 'dark') {
+                                // UPDATED PATH
+                                headerLogo.src = 'assets/white_logo_nobg.gif?' + currentTimestamp;
+                            } else {
+                                // UPDATED PATH
+                                headerLogo.src = 'assets/black_logo_nobg.gif?' + currentTimestamp;
+                            }
+                        }
+                    }
+                    konamiIndex = 0;
+                }
+            } else {
+                // Reset if wrong key, unless it's the first key again
+                konamiIndex = (lowerKey === konamiCode[0]) ? 1 : 0;
+            }
+        });
+        // --- END: KONAMI CODE LISTENER ---
+
+
         const terminalOutput = document.getElementById('terminal-output');
         const terminalInput = document.getElementById('terminal-input');
         const terminalInputLine = document.getElementById('terminal-input-line');
         const terminalBody = document.getElementById('terminal-body');
-        let isGameActive = false;
+
+        let isEffectActive = false;
         let gameLoop;
         let gameKeyListener;
 
@@ -599,7 +856,7 @@
             terminalBody.scrollTop = terminalBody.scrollHeight;
         };
         const printCommand = (command) => {
-            const prompt = `<span class="text-green-400 dark:text-green-500">guest@portfolio:~$</span>`;
+            const prompt = `<span class="text-[var(--text-link)] dark:text-[var(--text-link)]">guest@portfolio:~$</span>`;
             printToTerminal(`${prompt} <span class="terminal-output-text">${command}</span>`);
         };
 
@@ -607,6 +864,7 @@
             const parts = cmd.toLowerCase().split(' ');
             const command = parts[0];
             const args = parts.slice(1);
+            const currentTimestampCmd = new Date().getTime(); // Timestamp for terminal commands
 
             switch (command) {
                 case 'help':
@@ -615,14 +873,14 @@
                             <span class="terminal-help-command">about</span><span class="terminal-help-description">Display my professional summary.</span>
                             <span class="terminal-help-command">socials</span><span class="terminal-help-description">Display my social media links.</span>
                             <span class="terminal-help-command">resume</span><span class="terminal-help-description">Open my resume in a new tab.</span>
-                            <span class="terminal-help-command">projects</span><span class="terminal-help-description">List all my featured projects.</span>
+                            <span class="terminal-help-command">projects</span><span class="terminal-help-description">Navigate to the 'Works' section.</span>
                             <span class="terminal-help-command">blog</span><span class="terminal-help-description">Go to the blog section.</span>
                             <span class="terminal-help-command">skills</span><span class="terminal-help-description">Show a list of my technical skills.</span>
                             <span class="terminal-help-command">contact</span><span class="terminal-help-description">Display my contact email.</span>
                             <span class="terminal-help-command">theme</span><span class="terminal-help-description">Change theme. Usage: theme [light|dark]</span>
                             <span class="terminal-help-command">repo</span><span class="terminal-help-description">Opens the portfolio's GitHub repository.</span>
-                            <span class="terminal-help-command">snake</span><span class="terminal-help-description">Play a game of snake.</span>
-                            <span class="terminal-help-command">dino</span><span class="terminal-help-description">Play a game of dino run.</span>
+                            <span class="terminal-help-command">donut</span><span class="terminal-help-description">Render an ASCII 3D donut.</span>
+                            <span class="terminal-help-command">matrix</span><span class="terminal-help-description">Toggle Matrix mode.</span>
                             <span class="terminal-help-command">clear</span><span class="terminal-help-description">Clear the terminal screen.</span></div>`;
                     printToTerminal(helpText);
                     break;
@@ -631,16 +889,15 @@
                 case 'socials':
                     const socialsText = `
                         <strong class="text-primary">Connect with me:</strong>
-                        <div class="grid grid-cols-[100px_auto] gap-x-4 mt-2">
-                            <span class="terminal-help-command">
-                                <a href="https://github.com/Naveen-Jayaraj" target="_blank" rel="noopener noreferrer" class="text-link underline">GitHub</a>
-                            </span>
-                            <span class="terminal-help-description">/Naveen-Jayaraj - Check out my code.</span>
-                            
-                            <span class="terminal-help-command">
-                                <a href="https://www.linkedin.com/in/naveen-jayaraj" target="_blank" rel="noopener noreferrer" class="text-link underline">LinkedIn</a>
-                            </span>
-                            <span class="terminal-help-description">/in/naveen-jayaraj - Let's connect.</span>
+                        <div class="mt-2" style="line-height: 1.8;">
+                            <div>
+                                <a href="https://github.com/Naveen-Jayaraj" target="_blank" rel="noopener noreferrer" class="terminal-help-command underline">GitHub</a>
+                                <span class="terminal-help-description"> - github.com/Naveen-Jayaraj</span>
+                            </div>
+                            <div>
+                                <a href="https://www.linkedin.com/in/naveen-jayaraj" target="_blank" rel="noopener noreferrer" class="terminal-help-command underline">LinkedIn</a>
+                                <span class="terminal-help-description"> - linkedin.com/in/naveen-jayaraj</span>
+                            </div>
                         </div>
                     `;
                     printToTerminal(socialsText);
@@ -650,174 +907,151 @@
                     window.open('resume.pdf', '_blank');
                     break;
                 case 'projects':
-                    if (portfolioProjects.length > 0) {
-                        let projectList = '<strong class="text-primary">Projects:</strong><ul class="list-disc list-inside mt-1">';
-                        portfolioProjects.forEach(p => { projectList += `<li class="text-primary"><span class="terminal-output-command">${p.title}</span> - ${p.repoLink}</li>`; });
-                        printToTerminal(projectList + '</ul>');
-                    } else { printToTerminal('Projects are still loading...', 'terminal-output-error'); }
+                    printToTerminal("Navigating to the 'Works' section...");
+                    window.location.hash = 'works';
                     break;
                 case 'skills':
                     let skillsOutput = '<strong class="text-primary">Technical Skills:</strong><div class="mt-1">';
-                    for (const [category, skills] of Object.entries(skillsData)) { skillsOutput += `<div class="flex"><strong class="w-24 text-indigo-400">${category}:</strong><span>${skills}</span></div>`; }
+                    for (const [category, skills] of Object.entries(skillsData)) { skillsOutput += `<div class="flex"><strong class="w-24 text-[var(--text-link)]">${category}:</strong><span>${skills}</span></div>`; }
                     printToTerminal(skillsOutput + '</div>');
                     break;
                 case 'contact': printToTerminal(`You can reach me at: <a href="mailto:naveenpainthouse@gmail.com" class="text-link underline">naveenpainthouse@gmail.com</a>`); break;
                 case 'theme':
+                    // --- Check if Matrix Mode is active ---
+                    if (docElement.classList.contains('matrix-mode')) {
+                        printToTerminal("Cannot change theme while in Matrix Mode.", 'terminal-output-error');
+                        break; // Stop command execution
+                    }
+                    // --- End Check ---
                     if (args.length === 1 && (args[0] === 'light' || args[0] === 'dark')) {
-                        applyTheme(args[0]);
+                        applyTheme(args[0]); // applyTheme handles logo change
                         localStorage.setItem('theme', args[0]);
                         printToTerminal(`Theme changed to ${args[0]}.`);
                     } else { printToTerminal(`Usage: theme [light|dark]`, 'terminal-output-error'); }
                     break;
                 case 'repo':
                     printToTerminal("Opening repository in a new tab...");
-                    window.open("https://github.com/NaveenJayaraj/portfolio-website", "_blank");
+                    window.open("https://github.com/Naveen-Jayaraj/Portfolio_Website", "_blank");
                     break;
-                case 'snake': startSnakeGame(); break;
-                case 'dino': startDinoGame(); break;
+                case 'donut': startDonutEffect(); break;
+                case 'matrix': // Terminal command to toggle matrix mode
+                    const willBeMatrixCmd = !docElement.classList.contains('matrix-mode');
+                    docElement.classList.toggle('matrix-mode');
+                    printToTerminal(`Matrix mode ${willBeMatrixCmd ? 'activated' : 'deactivated'}.`);
+                    if (headerLogo) {
+                        if (willBeMatrixCmd) {
+                            // UPDATED PATH
+                            headerLogo.src = 'assets/matrix_logo_nobg.gif?' + currentTimestampCmd;
+                        } else {
+                            // Manually set correct theme logo on exit
+                            const currentThemeCmd = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                            if (currentThemeCmd === 'dark') {
+                                // UPDATED PATH
+                                headerLogo.src = 'assets/white_logo_nobg.gif?' + currentTimestampCmd;
+                            } else {
+                                // UPDATED PATH
+                                headerLogo.src = 'assets/black_logo_nobg.gif?' + currentTimestampCmd;
+                            }
+                        }
+                    }
+                    break;
                 case 'clear': terminalOutput.innerHTML = ''; break;
                 case '': break;
                 default: printToTerminal(`Command not found: ${cmd}. Type 'help' for a list of commands.`, 'terminal-output-error'); break;
             }
         };
 
-        const endGame = (gameName, score) => {
+        const endEffect = (effectName) => {
             clearInterval(gameLoop);
             window.removeEventListener('keydown', gameKeyListener);
-            isGameActive = false;
+            isEffectActive = false;
             terminalInputLine.style.display = 'flex';
-            printToTerminal(`<strong class="text-primary">Game Over!</strong> Final score for ${gameName}: ${score}`);
+            printToTerminal(`\n<strong class="text-primary">${effectName} stopped.</strong>`);
             terminalInput.focus();
         };
 
-        const startSnakeGame = () => {
-            isGameActive = true;
+        const startDonutEffect = () => {
+            isEffectActive = true;
             terminalInputLine.style.display = 'none';
-            terminalOutput.innerHTML = '';
-            printToTerminal('Starting Snake... Use Arrow Keys to move. Press "q" to quit.');
-            const width = 20, height = 12;
-            let snake = [{x: 10, y: 6}], food = {}, direction = {x: 1, y: 0}, score = 0;
-            const placeFood = () => {
-                food = { x: Math.floor(Math.random() * width), y: Math.floor(Math.random() * height) };
-                if (snake.some(segment => segment.x === food.x && segment.y === food.y)) placeFood();
-            };
-            placeFood();
-            gameKeyListener = (e) => {
-                e.preventDefault();
-                if (e.key === 'q') endGame('Snake', score);
-                else if (e.key === 'ArrowUp' && direction.y === 0) direction = { x: 0, y: -1 };
-                else if (e.key === 'ArrowDown' && direction.y === 0) direction = { x: 0, y: 1 };
-                else if (e.key === 'ArrowLeft' && direction.x === 0) direction = { x: -1, y: 0 };
-                else if (e.key === 'ArrowRight' && direction.x === 0) direction = { x: 1, y: 0 };
-            };
-            window.addEventListener('keydown', gameKeyListener);
-            gameLoop = setInterval(() => {
-                const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
-                if (head.x < 0 || head.x >= width || head.y < 0 || head.y >= height || snake.some(s => s.x === head.x && s.y === head.y)) {
-                    return endGame('Snake', score);
-                }
-                snake.unshift(head);
-                if (head.x === food.x && head.y === food.y) { score++; placeFood(); } else { snake.pop(); }
-                let grid = `Score: ${score}\n┌` + '──'.repeat(width) + '┐\n';
-                for (let y = 0; y < height; y++) {
-                    grid += '│';
-                    for (let x = 0; x < width; x++) {
-                        grid += snake.some(s => s.x === x && s.y === y) ? '<span class="text-green-500">■■</span>' : (food.x === x && food.y === y) ? '<span class="text-red-500">♥♥</span>' : '  ';
-                    }
-                    grid += '│\n';
-                }
-                grid += '└' + '──'.repeat(width) + '┘';
-                terminalOutput.innerHTML = `<div class="terminal-output-text">${grid}</div>`;
-            }, 150);
-        };
+            terminalOutput.innerHTML = ''; // Clear everything
 
-        const startDinoGame = () => {
-            isGameActive = true;
-            terminalInputLine.style.display = 'none';
-            terminalOutput.innerHTML = '';
-            printToTerminal('Starting Dino Run... Press Space to jump. Press "q" to quit.');
-            const width = 40, height = 8;
-            let dino = { y: height - 1, vy: 0, isJumping: false };
-            let obstacles = [], frame = 0, score = 0;
+            const instruction = document.createElement('div');
+            instruction.className = 'terminal-output-text';
+            instruction.textContent = 'Rendering 3D Donut... Press "q" to quit.';
+            terminalOutput.appendChild(instruction);
+
+            const preEl = document.createElement('pre');
+            preEl.className = 'terminal-output-text';
+            preEl.style.lineHeight = '1.2';
+            preEl.style.fontSize = '12px'; // Make it a bit smaller to fit
+            terminalOutput.appendChild(preEl);
+
+            let A = 0, B = 0;
+
             gameKeyListener = (e) => {
                 e.preventDefault();
-                if (e.key === 'q') endGame('Dino', score);
-                if (e.code === 'Space' && !dino.isJumping) { dino.vy = -2.5; dino.isJumping = true; }
+                if (e.key === 'q') endEffect('Donut');
             };
             window.addEventListener('keydown', gameKeyListener);
+
             gameLoop = setInterval(() => {
-                frame++; score++; dino.y += dino.vy; dino.vy += 0.15;
-                if (dino.y >= height - 1) { dino.y = height - 1; dino.vy = 0; dino.isJumping = false; }
-                if (frame % 50 === 0 && Math.random() > 0.5) { obstacles.push({ x: width -1, y: height - 1 }); }
-                obstacles.forEach(o => o.x--);
-                obstacles = obstacles.filter(o => o.x >= 0);
-                if(obstacles.some(o => o.x === 2 && Math.floor(dino.y) === o.y)) { return endGame('Dino', score); }
-                let grid = `Score: ${score}\n`;
-                for (let y = 0; y < height; y++) {
-                    let row = '';
-                    for (let x = 0; x < width; x++) {
-                        row += (x === 2 && y === Math.floor(dino.y)) ? '<span class="text-green-500">▲</span>' : obstacles.some(o => o.x === x && o.y === y) ? '<span class="text-red-500">■</span>' : ' ';
-                    }
-                    grid += row + '\n';
+                let b = []; // buffer
+                let z = []; // z-buffer
+                A += 0.05;
+                B += 0.07;
+                let cA = Math.cos(A), sA = Math.sin(A),
+                    cB = Math.cos(B), sB = Math.sin(B);
+
+                // Adjusted screen size for typical terminal
+                const screenHeight = 22;
+                const screenWidth = 80;
+
+                for(let k = 0; k < screenWidth * screenHeight; k++) {
+                    b[k] = k % screenWidth == (screenWidth - 1) ? "\n" : " ";
+                    z[k] = 0;
                 }
-                grid += '─'.repeat(width);
-                terminalOutput.innerHTML = `<div class="terminal-output-text">${grid}</div>`;
+
+                for(let j = 0; j < 6.28; j += 0.07) { // j = theta
+                    let ct = Math.cos(j), st = Math.sin(j);
+                    for(let i = 0; i < 6.28; i += 0.02) { // i = phi
+                        let sp = Math.sin(i), cp = Math.cos(i),
+                            h = ct + 2, // R1 + R2*cos(theta)
+                            D = 1 / (sp * h * sA + st * cA + 5), // 1 / (K2 + z)
+                            t = sp * h * cA - st * sA; // z'
+
+                        let x = Math.floor(screenWidth/2 + 30 * D * (cp * h * cB - t * sB));
+                        let y = Math.floor(screenHeight/2 + 15 * D * (cp * h * sB + t * cB));
+
+                        let o = x + screenWidth * y;
+                        let N = Math.floor(8 * ((st * sA - sp * ct * cA) * cB - sp * ct * sA - st * cA - cp * ct * sB));
+
+                        if(y < screenHeight && y >= 0 && x >= 0 && x < (screenWidth - 1) && D > z[o]) {
+                            z[o] = D;
+                            b[o] = ".,-~:;=!*#$@"[N > 0 ? N : 0];
+                        }
+                    }
+                }
+                preEl.innerHTML = b.join("");
+                terminalBody.scrollTop = terminalBody.scrollHeight;
             }, 50);
         };
 
         const showWelcomeMessage = () => {
             const welcome = `*********************************************************
-* Welcome to Naveen Jayaraj's Interactive Portfolio!   *
-*********************************************************
-Type <span class="terminal-output-command">'help'</span> to see the list of available commands.`;
+    * Welcome to Naveen Jayaraj's Interactive Portfolio!   *
+    *********************************************************
+    Type <span class="terminal-output-command">'help'</span> to see the list of available commands.`;
             printToTerminal(welcome);
         };
 
         terminalInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !isGameActive) {
+            if (e.key === 'Enter' && !isEffectActive) {
                 const command = terminalInput.value.trim();
                 printCommand(command);
                 executeCommand(command);
                 terminalInput.value = '';
             }
         });
-
-        window.generateDescription = async (index) => {
-            const project = portfolioProjects[index];
-            if (!project) return;
-            const button = document.getElementById(`gen-btn-${index}`);
-            const descriptionElement = document.getElementById(`project-desc-${index}`);
-            button.classList.add('loading');
-            button.disabled = true;
-            button.innerHTML = 'Generating...';
-            const prompt = `Act as a professional copywriter. Write a more detailed and engaging description for a portfolio project. The project is titled "${project.title}" and its current description is: "${project.description}". Focus on the project's purpose, the technologies used, and the value it provides. Keep it concise, professional, and within 100 words. Do not use markdown.`;
-            const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
-            const apiKey = ""; // IMPORTANT: Add your Gemini API Key here
-            if (!apiKey) {
-                console.error("API Key for Gemini is not set.");
-                descriptionElement.textContent = "Error: API Key is missing. Cannot generate description.";
-                button.classList.remove('loading');
-                button.disabled = false;
-                button.innerHTML = '✨ Regenerate Description';
-                return;
-            }
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-            try {
-                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
-                const result = await response.json();
-                if (result.candidates && result.candidates[0]?.content?.parts[0]?.text) {
-                    descriptionElement.textContent = result.candidates[0].content.parts[0].text;
-                } else { throw new Error("Invalid response structure from API."); }
-            } catch (error) {
-                console.error('Gemini API Error:', error);
-                descriptionElement.textContent = "Could not generate a new description. Please try again later.";
-            } finally {
-                button.classList.remove('loading');
-                button.disabled = false;
-                button.innerHTML = '✨ Regenerate Description';
-            }
-        };
 
         const form = document.getElementById('contact-form');
         const formStatus = document.getElementById('form-status');
@@ -830,19 +1064,19 @@ Type <span class="terminal-output-command">'help'</span> to see the list of avai
                 const response = await fetch(event.target.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } });
                 if (response.ok) {
                     formStatus.textContent = 'Message sent successfully!';
-                    formStatus.classList.add('text-green-600', 'dark:text-green-400');
+                    formStatus.style.color = 'var(--text-accent)'; /* Changed success color */
                     form.reset();
                 } else {
                     const errorData = await response.json();
                     formStatus.textContent = errorData.errors?.map(e => e.message).join(", ") || 'Oops! There was a problem.';
-                    formStatus.classList.add('text-red-600', 'dark:text-red-400');
+                    formStatus.style.color = '#c94c4c'; /* Changed error color */
                 }
             } catch (error) {
                 formStatus.textContent = 'Oops! A network error occurred.';
-                formStatus.classList.add('text-red-600', 'dark:text-red-400');
+                formStatus.style.color = '#c94c4c'; /* Changed error color */
                 console.error('Form submission error:', error);
             }
-            setTimeout(() => { formStatus.textContent = ''; }, 5000);
+            setTimeout(() => { formStatus.textContent = ''; formStatus.style.color = ''; }, 5000);
         });
     });
     </script>
