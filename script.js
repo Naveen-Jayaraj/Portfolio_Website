@@ -210,7 +210,51 @@
 
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('.section-container');
+        const navList = document.getElementById('nav-list');
+        const navGlider = document.getElementById('nav-glider');
+        let activeNavIndex = 0;
+        let navGliderTimers = [];
         let terminalInitialized = false;
+
+        const getNavIndex = (targetId) => Array.from(navLinks).findIndex(link => link.dataset.target === targetId);
+
+        const placeNavGlider = (link) => {
+            if (!navList || !navGlider || !link) return;
+            const navRect = navList.getBoundingClientRect();
+            const linkRect = link.getBoundingClientRect();
+            navGlider.style.opacity = '1';
+            navGlider.style.width = `${linkRect.width}px`;
+            navGlider.style.transform = `translateX(${linkRect.left - navRect.left + navList.scrollLeft}px)`;
+        };
+
+        const animateNavGlider = (targetId, instant = false) => {
+            if (!navGlider || !navLinks.length) return;
+            const targetIndex = getNavIndex(targetId);
+            if (targetIndex < 0) return;
+
+            const startIndex = activeNavIndex < 0 ? targetIndex : activeNavIndex;
+            const direction = Math.sign(targetIndex - startIndex);
+            const path = direction === 0
+                ? [targetIndex]
+                : Array.from({ length: Math.abs(targetIndex - startIndex) + 1 }, (_, index) => startIndex + index * direction);
+
+            navGliderTimers.forEach(timer => clearTimeout(timer));
+            navGliderTimers = [];
+            if (instant || path.length === 1) {
+                placeNavGlider(navLinks[targetIndex]);
+                activeNavIndex = targetIndex;
+                return;
+            }
+
+            path.forEach((index, step) => {
+                const timer = setTimeout(() => {
+                    placeNavGlider(navLinks[index]);
+                    if (index === targetIndex) activeNavIndex = targetIndex;
+                }, step * 95);
+                navGliderTimers.push(timer);
+            });
+        };
+
         function showSection(targetId) {
             sections.forEach(section => section.classList.remove('active'));
             const targetSection = document.getElementById(targetId);
@@ -218,6 +262,7 @@
             navLinks.forEach(link => {
                 link.classList.toggle('active-link', link.dataset.target === targetId);
             });
+            animateNavGlider(targetId);
             if (targetId === 'terminal' && !terminalInitialized) {
                 showWelcomeMessage();
                 terminalInitialized = true;
@@ -227,6 +272,10 @@
         window.addEventListener('hashchange', handleHashChange);
         window.addEventListener('popstate', handleHashChange);
         handleHashChange();
+        requestAnimationFrame(() => animateNavGlider(window.location.hash.substring(1) || 'about', true));
+        window.addEventListener('resize', () => {
+            animateNavGlider(window.location.hash.substring(1) || 'about', true);
+        });
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1298,14 +1347,32 @@
             const width = svgEl.clientWidth || Math.min(window.innerWidth * 0.9, 1000);
             const height = svgEl.clientHeight || (window.innerHeight * 0.6) || 600;
             const isMobile = window.innerWidth < 768;
-            const scale = isMobile ? 0.45 : 1.3; // Smaller scale for mobile to avoid tight boundaries
+            const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+            const scale = isMobile ? 0.74 : isTablet ? 0.95 : 1.15;
 
             const svg = d3.select('#network-canvas')
                 .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
+            const defs = svg.append("defs");
+            const glow = defs.append("filter")
+                .attr("id", "galaxy-glow")
+                .attr("x", "-60%")
+                .attr("y", "-60%")
+                .attr("width", "220%")
+                .attr("height", "220%");
+            glow.append("feGaussianBlur").attr("stdDeviation", "4").attr("result", "coloredBlur");
+            const glowMerge = glow.append("feMerge");
+            glowMerge.append("feMergeNode").attr("in", "coloredBlur");
+            glowMerge.append("feMergeNode").attr("in", "SourceGraphic");
+
+            const coreGradient = defs.append("radialGradient").attr("id", "galaxy-core-gradient");
+            coreGradient.append("stop").attr("offset", "0%").attr("stop-color", "var(--text-primary)");
+            coreGradient.append("stop").attr("offset", "55%").attr("stop-color", "var(--text-link)");
+            coreGradient.append("stop").attr("offset", "100%").attr("stop-color", "var(--text-accent)");
+
             const g = svg.append("g");
             svg.call(d3.zoom()
-                .scaleExtent([0.2, 4])
+                .scaleExtent([isMobile ? 0.55 : 0.35, 3.4])
                 .on("zoom", (event) => g.attr("transform", event.transform))
             );
 
@@ -1331,56 +1398,151 @@
             const nodes = [];
             const links = [];
             
-            function flatten(node, parent) {
-                node.sc_radius = node.radius * scale;
+            function flatten(node, parent = null, depth = 0, siblingIndex = 0, siblingCount = 1) {
+                node.depth = depth;
+                node.parentId = parent?.id || null;
+                node.siblingIndex = siblingIndex;
+                node.siblingCount = siblingCount;
+                node.sc_radius = Math.max(8, node.radius * scale * (depth === 0 ? 0.85 : depth === 1 ? 0.95 : 0.82));
                 nodes.push(node);
                 if (parent) links.push({source: parent.id, target: node.id});
-                if (node.children) node.children.forEach(child => flatten(child, node));
+                if (node.children) node.children.forEach((child, index) => flatten(child, node, depth + 1, index, node.children.length));
             }
             const dataCopy = JSON.parse(JSON.stringify(data));
-            flatten(dataCopy, null);
+            flatten(dataCopy);
 
-            const getLinkDistance = (d) => {
-                const baseDist = d.source.id === window.constellationData.id ? 180 : 80;
-                return isMobile ? baseDist * 0.45 : baseDist * scale;
+            const depthOneNodes = nodes.filter(node => node.depth === 1);
+            const categoriesById = new Map(depthOneNodes.map(node => [node.id, node]));
+            const accentPalette = ['#60a5fa', '#34d399', '#fbbf24', '#fb7185', '#a78bfa', '#f472b6', '#2dd4bf', '#fb923c', '#818cf8', '#bef264', '#22d3ee', '#facc15'];
+            const rootRadius = Math.min(width, height) * (isMobile ? 0.07 : 0.06);
+            const orbitRadiusX = Math.min(width * (isMobile ? 0.34 : 0.36), height * (isMobile ? 0.25 : 0.34));
+            const orbitRadiusY = Math.min(height * (isMobile ? 0.33 : 0.35), width * (isMobile ? 0.46 : 0.28));
+            const childOrbit = isMobile ? 46 : isTablet ? 58 : 72;
+
+            const getCategory = (node) => {
+                if (node.depth <= 1) return node;
+                let parentId = node.parentId;
+                let parent = categoriesById.get(parentId);
+                if (parent) return parent;
+                while (parentId) {
+                    const maybeParent = nodes.find(candidate => candidate.id === parentId);
+                    if (!maybeParent || maybeParent.depth <= 1) return maybeParent || node;
+                    parentId = maybeParent.parentId;
+                }
+                return node;
+            };
+
+            nodes.forEach(node => {
+                if (node.depth === 0) {
+                    node.targetX = 0;
+                    node.targetY = 0;
+                    node.sc_radius = Math.max(node.sc_radius, rootRadius);
+                    node.color = "var(--text-link)";
+                    return;
+                }
+
+                if (node.depth === 1) {
+                    const angle = ((Math.PI * 2) / Math.max(depthOneNodes.length, 1)) * node.siblingIndex - Math.PI / 2;
+                    node.angle = angle;
+                    node.targetX = Math.cos(angle) * orbitRadiusX;
+                    node.targetY = Math.sin(angle) * orbitRadiusY;
+                    node.color = accentPalette[node.group % accentPalette.length];
+                    return;
+                }
+
+                const category = getCategory(node);
+                const localAngle = ((Math.PI * 2) / Math.max(node.siblingCount, 1)) * node.siblingIndex + (category.angle || 0) + 0.5;
+                const childRadius = childOrbit + (node.siblingIndex % 2) * (isMobile ? 8 : 16);
+                node.targetX = (category.targetX || 0) + Math.cos(localAngle) * childRadius;
+                node.targetY = (category.targetY || 0) + Math.sin(localAngle) * childRadius * 0.78;
+                node.color = accentPalette[(category.group || node.group) % accentPalette.length];
+            });
+
+            const starData = d3.range(isMobile ? 42 : 82).map((_, index) => ({
+                id: index,
+                x: (Math.random() - 0.5) * width,
+                y: (Math.random() - 0.5) * height,
+                r: Math.random() * 1.6 + 0.5,
+                opacity: Math.random() * 0.45 + 0.18
+            }));
+
+            const background = g.append("g").attr("class", "galaxy-background");
+            background.selectAll("circle.galaxy-star")
+                .data(starData)
+                .join("circle")
+                .attr("class", "galaxy-star")
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y)
+                .attr("r", d => d.r)
+                .attr("opacity", d => d.opacity);
+
+            background.selectAll("ellipse.orbit-ring")
+                .data([0.48, 0.72, 1])
+                .join("ellipse")
+                .attr("class", "orbit-ring")
+                .attr("rx", d => orbitRadiusX * d)
+                .attr("ry", d => orbitRadiusY * d)
+                .attr("transform", (_, index) => `rotate(${index * 8 - 8})`);
+
+            const getLinkWidth = (d) => d.source.depth === 0 ? 2.2 : 1.15;
+            const getPath = (d) => {
+                const sx = d.source.x;
+                const sy = d.source.y;
+                const tx = d.target.x;
+                const ty = d.target.y;
+                const mx = (sx + tx) / 2;
+                const my = (sy + ty) / 2;
+                const curve = d.source.depth === 0 ? 0.14 : 0.28;
+                const cx = mx - (ty - sy) * curve;
+                const cy = my + (tx - sx) * curve;
+                return `M${sx},${sy} Q${cx},${cy} ${tx},${ty}`;
             };
 
             const simulation = d3.forceSimulation(nodes)
-                .force("link", d3.forceLink(links).id(d => d.id).distance(getLinkDistance))
-                .force("charge", d3.forceManyBody().strength(isMobile ? -150 : -400 * scale))
-                .force("center", d3.forceCenter(0, 0))
-                .force("collide", d3.forceCollide().radius(d => d.sc_radius + (isMobile ? 5 : 10)).iterations(3));
+                .force("link", d3.forceLink(links).id(d => d.id).distance(d => d.source.depth === 0 ? orbitRadiusX * 0.4 : childOrbit).strength(0.18))
+                .force("charge", d3.forceManyBody().strength(d => d.depth === 0 ? -120 : d.depth === 1 ? -90 : -24))
+                .force("x", d3.forceX(d => d.targetX).strength(d => d.depth === 0 ? 0.18 : 0.095))
+                .force("y", d3.forceY(d => d.targetY).strength(d => d.depth === 0 ? 0.18 : 0.095))
+                .force("collide", d3.forceCollide().radius(d => d.sc_radius + (isMobile ? 12 : 16)).iterations(4))
+                .alpha(0.9);
 
             const tooltip = document.getElementById('d3-tooltip');
 
             const link = g.append("g")
-                .selectAll("line")
+                .attr("class", "galaxy-links")
+                .selectAll("path")
                 .data(links)
-                .join("line")
-                .attr("class", "link");
+                .join("path")
+                .attr("class", d => `link depth-${d.source.depth}`)
+                .attr("stroke-width", getLinkWidth)
+                .attr("fill", "none");
 
             const node = g.append("g")
+                .attr("class", "galaxy-nodes")
                 .selectAll("g")
                 .data(nodes)
                 .join("g")
+                .attr("class", d => `skill-node depth-${d.depth}`)
                 .call(drag(simulation));
 
-            const getColor = (group) => {
-                const colors = ['#0f172a', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#6366f1', '#84cc16', '#06b6d4'];
-                return colors[group % colors.length];
-            };
+            node.append("circle")
+                .attr("class", "node-aura")
+                .attr("r", d => d.sc_radius * (d.depth === 0 ? 1.85 : d.depth === 1 ? 1.55 : 1.28))
+                .attr("fill", d => d.color)
+                .attr("opacity", d => d.depth === 0 ? 0.15 : d.depth === 1 ? 0.11 : 0.08);
 
             node.append("circle")
                 .attr("r", d => d.sc_radius)
-                .attr("fill", d => d.icon ? "#ffffff" : getColor(d.group))
-                .attr("class", "node-circle shadow-lg")
+                .attr("fill", d => d.depth === 0 ? "url(#galaxy-core-gradient)" : d.icon ? "var(--bg-body-start)" : d.color)
+                .attr("class", d => `node-circle shadow-lg depth-${d.depth}`)
+                .attr("filter", d => d.depth <= 1 ? "url(#galaxy-glow)" : null)
                 .on("mouseover", (event, d) => {
                     tooltip.style.opacity = 1;
-                    let html = `<strong>${d.id}</strong>${d.children ? `<br/><span class='text-sm text-secondary'>${d.children.length} items</span>` : ''}`;
+                    let html = `<strong>${d.id}</strong>${d.children ? `<br/><span class='text-sm text-secondary'>${d.children.length} orbiting skills</span>` : `<br/><span class='text-sm text-secondary'>${getCategory(d)?.id || 'Skill'}</span>`}`;
                     if (d.clickAction) html += `<br/><i class="text-xs text-[var(--text-link)]">${d.clickAction}</i>`;
                     tooltip.innerHTML = html;
-                    d3.select(event.currentTarget).attr("stroke", "var(--bg-body-start)").attr("stroke-width", 3);
-                    link.attr("stroke", l => l.source.id === d.id || l.target.id === d.id ? "var(--text-primary)" : "var(--text-link)").attr("stroke-opacity", l => l.source.id === d.id || l.target.id === d.id ? 1 : 0.1);
+                    d3.select(event.currentTarget).attr("stroke", "var(--text-primary)").attr("stroke-width", 3);
+                    link.attr("stroke", l => l.source.id === d.id || l.target.id === d.id ? d.color : "var(--text-link)").attr("stroke-opacity", l => l.source.id === d.id || l.target.id === d.id ? 0.85 : 0.08);
                     node.style("opacity", n => n.id === d.id || links.some(l => (l.source.id === d.id && l.target.id === n.id) || (l.target.id === d.id && l.source.id === n.id)) ? 1 : 0.3);
                 })
                 .on("mousemove", (event) => {
@@ -1396,39 +1558,46 @@
                 .on("mouseout", (event) => {
                     tooltip.style.opacity = 0;
                     d3.select(event.currentTarget).attr("stroke", null).attr("stroke-width", null);
-                    link.attr("stroke", "var(--text-link)").attr("stroke-opacity", 0.2);
+                    link.attr("stroke", "var(--text-link)").attr("stroke-opacity", null);
                     node.style("opacity", 1);
                 })
                 .on("click", (event, d) => {
                     if (isAdminMode) {
                         window.openNodeEditor(d.id);
-                    } else if (d.clickAction) {
-                        window.showMessageBox(d.clickAction);
+                    } else {
+                        const categoryName = d.children ? `${d.children.length} orbiting skills` : getCategory(d)?.id || 'Skill';
+                        window.showMessageBox(d.clickAction || `${d.id} · ${categoryName}`);
                     }
                 });
 
             node.filter(d => d.icon).append("image")
                 .attr("href", d => `https://cdn.simpleicons.org/${d.icon}`)
-                .attr("width", d => d.sc_radius * 1.5)
-                .attr("height", d => d.sc_radius * 1.5)
-                .attr("x", d => -(d.sc_radius * 0.75))
-                .attr("y", d => -(d.sc_radius * 0.75))
+                .attr("width", d => d.sc_radius * (d.depth === 0 ? 1.05 : 1.28))
+                .attr("height", d => d.sc_radius * (d.depth === 0 ? 1.05 : 1.28))
+                .attr("x", d => -(d.sc_radius * (d.depth === 0 ? 0.525 : 0.64)))
+                .attr("y", d => -(d.sc_radius * (d.depth === 0 ? 0.525 : 0.64)))
                 .attr("pointer-events", "none");
 
+            node.filter(d => !d.icon && d.depth > 1).append("text")
+                .attr("dy", "0.34em")
+                .attr("text-anchor", "middle")
+                .text(d => d.id.split(/\s|-/).map(part => part[0]).join('').slice(0, 3).toUpperCase())
+                .attr("class", "node-initials pointer-events-none");
+
             node.append("text")
-                .attr("dy", d => d.sc_radius + 15)
+                .attr("dy", d => d.sc_radius + (d.depth === 0 ? 22 : d.depth === 1 ? 17 : 14))
                 .attr("text-anchor", "middle")
                 .text(d => d.id)
-                .attr("class", "node-text text-[10px] sm:text-xs pointer-events-none");
+                .attr("class", d => `node-text depth-${d.depth} text-[10px] sm:text-xs pointer-events-none`);
 
             simulation.on("tick", () => {
                 nodes.forEach(d => {
-                    const padding = d.sc_radius;
-                    d.x = Math.max(-width/2 + padding, Math.min(width/2 - padding, d.x));
-                    d.y = Math.max(-height/2 + padding, Math.min(height/2 - padding, d.y));
+                    const padding = d.sc_radius + (d.depth === 1 ? 42 : 26);
+                    d.x = Math.max(-width / 2 + padding, Math.min(width / 2 - padding, d.x));
+                    d.y = Math.max(-height / 2 + padding, Math.min(height / 2 - padding, d.y));
                 });
                 
-                link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+                link.attr("d", getPath);
                 node.attr("transform", d => `translate(${d.x},${d.y})`);
             });
 
@@ -1584,9 +1753,7 @@
             setTimeout(() => { btn.textContent = prevText; }, 2000);
         };
 
-        window.showMessageBox = (text) => {
-            alert(text);
-        };
+        window.showMessageBox = showMessageBox;
         // +++ END: D3 NODE EDITOR LOGIC +++
 // +++ START: GITHUB CITY +++
         async function initGitHubCity() {

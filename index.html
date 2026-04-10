@@ -49,8 +49,9 @@
         </a>
         
         <nav class="flex items-center w-full sm:w-auto px-2 sm:px-0 mt-1 sm:mt-0 overflow-hidden">
-            <ul class="flex items-center justify-start sm:justify-end gap-x-4 sm:gap-6 font-semibold overflow-x-auto w-full whitespace-nowrap pb-1 no-scrollbar" style="scrollbar-width: none; -ms-overflow-style: none;">
+            <ul id="nav-list" class="relative flex items-center justify-start sm:justify-end gap-x-4 sm:gap-6 font-semibold overflow-x-auto w-full whitespace-nowrap pb-1 no-scrollbar" style="scrollbar-width: none; -ms-overflow-style: none;">
                 <style>.no-scrollbar-inline::-webkit-scrollbar { display: none; }</style>
+                <span id="nav-glider" aria-hidden="true"></span>
                 <li class="shrink-0"><a href="#about" class="nav-link text-[13.5px] sm:text-base py-1 no-scrollbar-inline" data-target="about">About</a></li>
                 <li class="shrink-0"><a href="#skills" class="nav-link text-[13.5px] sm:text-base py-1" data-target="skills">Skills</a></li>
                 <li class="shrink-0"><a href="#works" class="nav-link text-[13.5px] sm:text-base py-1" data-target="works">Works</a></li>
@@ -111,9 +112,10 @@
 
         <section id="skills" class="section-container">
             <div class="p-4 sm:p-6 lg:p-10 mb-8">
-                <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-center">Tech Constellation</h2>
-                <p class="text-center text-secondary mb-8">Grab, pull, and release the nodes to interact with the neural network.</p>
-                <div class="themed-card rounded-xl overflow-hidden shadow-2xl relative h-[60svh] min-h-[360px] sm:h-[75vh] md:h-[85vh] w-full">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-center">Skill Galaxy</h2>
+                <p class="text-center text-secondary mb-8">Explore the orbiting systems behind my work. Drag planets, hover for details, and tap nodes on mobile.</p>
+                <div class="skill-galaxy themed-card rounded-xl overflow-hidden shadow-2xl relative h-[62svh] min-h-[430px] sm:h-[75vh] md:h-[85vh] w-full">
+                    <div class="galaxy-hud pointer-events-none absolute left-3 top-3 sm:left-5 sm:top-5 z-10 rounded-full px-3 py-1.5 text-xs sm:text-sm font-bold tracking-wide">Drag the galaxy</div>
                     <div id="d3-tooltip" class="absolute opacity-0 bg-white/80 dark:bg-black/80 backdrop-blur-md border border-[var(--text-link)] text-primary px-4 py-2 rounded-lg shadow-lg pointer-events-none z-10 transition-opacity duration-200"></div>
                     <svg id="network-canvas" class="w-full h-full cursor-grab active:cursor-grabbing"></svg>
                 </div>

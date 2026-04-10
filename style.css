@@ -144,6 +144,7 @@
 
         .nav-link {
             position: relative;
+            z-index: 1;
             color: var(--text-secondary);
             transition: color 0.3s ease;
         }
@@ -167,8 +168,23 @@
             font-weight: 700;
         }
         .nav-link.active-link::after {
-            transform: scaleX(1);
+            transform: scaleX(0);
             transform-origin: bottom left;
+        }
+
+        #nav-glider {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--text-link), var(--text-accent));
+            box-shadow: 0 0 14px color-mix(in srgb, var(--text-link) 50%, transparent);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(0);
+            transition: transform 0.38s cubic-bezier(0.2, 0.85, 0.2, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.2, 1), opacity 0.2s ease;
         }
 
         .about-summary {
@@ -411,22 +427,128 @@
         }
 
         /* +++ START: D3 GRAPH CSS +++ */
+        .skill-galaxy {
+            background:
+                radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--text-link) 16%, transparent), transparent 30%),
+                radial-gradient(circle at 18% 20%, color-mix(in srgb, var(--text-accent) 14%, transparent), transparent 24%),
+                linear-gradient(135deg, color-mix(in srgb, var(--card-bg) 80%, transparent), color-mix(in srgb, var(--bg-body-end) 82%, transparent));
+            isolation: isolate;
+        }
+
+        .skill-galaxy::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(color-mix(in srgb, var(--text-primary) 5%, transparent) 1px, transparent 1px),
+                linear-gradient(90deg, color-mix(in srgb, var(--text-primary) 5%, transparent) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: radial-gradient(circle at center, black, transparent 76%);
+            opacity: 0.5;
+        }
+
+        .galaxy-hud {
+            color: var(--text-primary);
+            background: color-mix(in srgb, var(--card-bg) 82%, transparent);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .galaxy-star {
+            fill: var(--text-primary);
+        }
+
+        .orbit-ring {
+            fill: none;
+            stroke: var(--text-link);
+            stroke-width: 1;
+            stroke-dasharray: 5 12;
+            opacity: 0.24;
+            animation: orbit-drift 18s linear infinite;
+            transform-origin: center;
+        }
+
+        .orbit-ring:nth-child(even) {
+            animation-direction: reverse;
+        }
+
+        @keyframes orbit-drift {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .orbit-ring {
+                animation: none;
+            }
+        }
+
         .node-circle {
             stroke: var(--border-color);
-            stroke-width: 1px;
-            transition: stroke-width 0.2s, stroke 0.2s;
+            stroke-width: 1.25px;
+            transition: stroke-width 0.2s, stroke 0.2s, filter 0.2s, transform 0.2s;
         }
+
+        .node-circle.depth-0 {
+            stroke: color-mix(in srgb, var(--text-primary) 60%, transparent);
+            stroke-width: 2px;
+        }
+
+        .node-circle.depth-1 {
+            stroke: color-mix(in srgb, var(--text-primary) 35%, transparent);
+            stroke-width: 1.5px;
+        }
+
+        .node-aura {
+            filter: blur(1px);
+        }
+
         .node-text {
             font-family: inherit;
             pointer-events: none;
             fill: var(--text-primary);
             font-weight: 700;
-            text-shadow: 1px 1px 3px var(--bg-body-start), -1px -1px 3px var(--bg-body-start), 0px 0px 5px var(--bg-body-start);
+            letter-spacing: 0.01em;
+            paint-order: stroke;
+            stroke: color-mix(in srgb, var(--bg-body-start) 88%, transparent);
+            stroke-width: 4px;
+            stroke-linejoin: round;
+            text-shadow: 0 2px 8px color-mix(in srgb, var(--bg-body-start) 80%, transparent);
         }
+
+        .node-text.depth-0 {
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .node-text.depth-1 {
+            font-size: 0.78rem;
+        }
+
+        .node-text.depth-2 {
+            font-size: 0.66rem;
+            opacity: 0.9;
+        }
+
+        .node-initials {
+            fill: var(--bg-body-start);
+            font-family: 'Playfair Display', serif;
+            font-size: 0.56rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+        }
+
         .link {
             stroke: var(--text-link);
-            stroke-opacity: 0.2;
-            stroke-width: 1.5px;
+            stroke-opacity: 0.18;
+            stroke-linecap: round;
+            transition: stroke 0.2s ease, stroke-opacity 0.2s ease;
+        }
+
+        .link.depth-0 {
+            stroke-opacity: 0.32;
         }
         /* +++ END: D3 GRAPH CSS +++ */
 
@@ -526,6 +648,35 @@
 
     #d3-tooltip {
         max-width: min(220px, calc(100vw - 2rem));
+    }
+
+    .skill-galaxy {
+        min-height: 460px;
+    }
+
+    .galaxy-hud {
+        font-size: 0.72rem;
+    }
+
+    .orbit-ring {
+        opacity: 0.18;
+    }
+
+    .node-text.depth-0 {
+        font-size: 0.78rem;
+    }
+
+    .node-text.depth-1 {
+        font-size: 0.66rem;
+    }
+
+    .node-text.depth-2 {
+        font-size: 0.54rem;
+        opacity: 0.78;
+    }
+
+    .node-initials {
+        font-size: 0.48rem;
     }
 
     #admin-constellation-controls button {
