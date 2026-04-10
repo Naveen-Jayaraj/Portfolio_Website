@@ -212,9 +212,12 @@
         const sections = document.querySelectorAll('.section-container');
         const navList = document.getElementById('nav-list');
         const navGlider = document.getElementById('nav-glider');
+        const terminalShortcut = document.getElementById('terminal-shortcut');
         let activeNavIndex = 0;
         let navGliderTimers = [];
         let terminalInitialized = false;
+        let currentSectionId = window.location.hash.substring(1) || 'about';
+        let lastNonTerminalSectionId = currentSectionId === 'terminal' ? 'about' : currentSectionId;
 
         const getNavIndex = (targetId) => Array.from(navLinks).findIndex(link => link.dataset.target === targetId);
 
@@ -230,7 +233,10 @@
         const animateNavGlider = (targetId, instant = false) => {
             if (!navGlider || !navLinks.length) return;
             const targetIndex = getNavIndex(targetId);
-            if (targetIndex < 0) return;
+            if (targetIndex < 0) {
+                navGlider.style.opacity = '0';
+                return;
+            }
 
             const startIndex = activeNavIndex < 0 ? targetIndex : activeNavIndex;
             const direction = Math.sign(targetIndex - startIndex);
@@ -256,12 +262,19 @@
         };
 
         function showSection(targetId) {
+            if (targetId !== 'terminal') {
+                lastNonTerminalSectionId = targetId;
+            }
+            currentSectionId = targetId;
             sections.forEach(section => section.classList.remove('active'));
             const targetSection = document.getElementById(targetId);
             if (targetSection) targetSection.classList.add('active');
             navLinks.forEach(link => {
                 link.classList.toggle('active-link', link.dataset.target === targetId);
             });
+            if (terminalShortcut) {
+                terminalShortcut.classList.toggle('active', targetId === 'terminal');
+            }
             animateNavGlider(targetId);
             if (targetId === 'terminal' && !terminalInitialized) {
                 showWelcomeMessage();
@@ -292,6 +305,15 @@
                 e.preventDefault();
                 history.pushState(null, null, '#about');
                 showSection('about');
+                setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+            });
+        }
+
+        if (terminalShortcut) {
+            terminalShortcut.addEventListener('click', () => {
+                const targetId = currentSectionId === 'terminal' ? lastNonTerminalSectionId : 'terminal';
+                history.pushState(null, null, `#${targetId}`);
+                showSection(targetId);
                 setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
             });
         }
@@ -1349,21 +1371,24 @@
             const isMobile = window.innerWidth < 768;
             const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
             const scale = isMobile ? 0.74 : isTablet ? 0.95 : 1.15;
+            const mobileStaticGraph = isMobile || prefersReducedMotion;
 
             const svg = d3.select('#network-canvas')
                 .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
             const defs = svg.append("defs");
-            const glow = defs.append("filter")
-                .attr("id", "galaxy-glow")
-                .attr("x", "-60%")
-                .attr("y", "-60%")
-                .attr("width", "220%")
-                .attr("height", "220%");
-            glow.append("feGaussianBlur").attr("stdDeviation", "4").attr("result", "coloredBlur");
-            const glowMerge = glow.append("feMerge");
-            glowMerge.append("feMergeNode").attr("in", "coloredBlur");
-            glowMerge.append("feMergeNode").attr("in", "SourceGraphic");
+            if (!mobileStaticGraph) {
+                const glow = defs.append("filter")
+                    .attr("id", "galaxy-glow")
+                    .attr("x", "-60%")
+                    .attr("y", "-60%")
+                    .attr("width", "220%")
+                    .attr("height", "220%");
+                glow.append("feGaussianBlur").attr("stdDeviation", "4").attr("result", "coloredBlur");
+                const glowMerge = glow.append("feMerge");
+                glowMerge.append("feMergeNode").attr("in", "coloredBlur");
+                glowMerge.append("feMergeNode").attr("in", "SourceGraphic");
+            }
 
             const coreGradient = defs.append("radialGradient").attr("id", "galaxy-core-gradient");
             coreGradient.append("stop").attr("offset", "0%").attr("stop-color", "var(--text-primary)");
@@ -1371,10 +1396,12 @@
             coreGradient.append("stop").attr("offset", "100%").attr("stop-color", "var(--text-accent)");
 
             const g = svg.append("g");
-            svg.call(d3.zoom()
-                .scaleExtent([isMobile ? 0.55 : 0.35, 3.4])
-                .on("zoom", (event) => g.attr("transform", event.transform))
-            );
+            if (!mobileStaticGraph) {
+                svg.call(d3.zoom()
+                    .scaleExtent([0.35, 3.4])
+                    .on("zoom", (event) => g.attr("transform", event.transform))
+                );
+            }
 
             const defaultData = {
                 id: "Naveen", group: 0, radius: 45, icon: "github",
@@ -1458,7 +1485,7 @@
                 node.color = accentPalette[(category.group || node.group) % accentPalette.length];
             });
 
-            const starData = d3.range(isMobile ? 42 : 82).map((_, index) => ({
+            const starData = d3.range(mobileStaticGraph ? 18 : 82).map((_, index) => ({
                 id: index,
                 x: (Math.random() - 0.5) * width,
                 y: (Math.random() - 0.5) * height,
@@ -1477,7 +1504,7 @@
                 .attr("opacity", d => d.opacity);
 
             background.selectAll("ellipse.orbit-ring")
-                .data([0.48, 0.72, 1])
+                .data(mobileStaticGraph ? [0.68, 1] : [0.48, 0.72, 1])
                 .join("ellipse")
                 .attr("class", "orbit-ring")
                 .attr("rx", d => orbitRadiusX * d)
@@ -1498,13 +1525,22 @@
                 return `M${sx},${sy} Q${cx},${cy} ${tx},${ty}`;
             };
 
-            const simulation = d3.forceSimulation(nodes)
-                .force("link", d3.forceLink(links).id(d => d.id).distance(d => d.source.depth === 0 ? orbitRadiusX * 0.4 : childOrbit).strength(0.18))
-                .force("charge", d3.forceManyBody().strength(d => d.depth === 0 ? -120 : d.depth === 1 ? -90 : -24))
-                .force("x", d3.forceX(d => d.targetX).strength(d => d.depth === 0 ? 0.18 : 0.095))
-                .force("y", d3.forceY(d => d.targetY).strength(d => d.depth === 0 ? 0.18 : 0.095))
-                .force("collide", d3.forceCollide().radius(d => d.sc_radius + (isMobile ? 12 : 16)).iterations(4))
-                .alpha(0.9);
+            let simulation = null;
+            if (mobileStaticGraph) {
+                nodes.forEach(d => {
+                    d.x = d.targetX;
+                    d.y = d.targetY;
+                });
+            } else {
+                simulation = d3.forceSimulation(nodes)
+                    .force("link", d3.forceLink(links).id(d => d.id).distance(d => d.source.depth === 0 ? orbitRadiusX * 0.4 : childOrbit).strength(0.18))
+                    .force("charge", d3.forceManyBody().strength(d => d.depth === 0 ? -120 : d.depth === 1 ? -90 : -24))
+                    .force("x", d3.forceX(d => d.targetX).strength(d => d.depth === 0 ? 0.18 : 0.095))
+                    .force("y", d3.forceY(d => d.targetY).strength(d => d.depth === 0 ? 0.18 : 0.095))
+                    .force("collide", d3.forceCollide().radius(d => d.sc_radius + 16).iterations(3))
+                    .alpha(0.75)
+                    .alphaDecay(0.08);
+            }
 
             const tooltip = document.getElementById('d3-tooltip');
 
@@ -1523,20 +1559,23 @@
                 .data(nodes)
                 .join("g")
                 .attr("class", d => `skill-node depth-${d.depth}`)
-                .call(drag(simulation));
+                .call(mobileStaticGraph ? () => {} : drag(simulation));
 
-            node.append("circle")
-                .attr("class", "node-aura")
-                .attr("r", d => d.sc_radius * (d.depth === 0 ? 1.85 : d.depth === 1 ? 1.55 : 1.28))
-                .attr("fill", d => d.color)
-                .attr("opacity", d => d.depth === 0 ? 0.15 : d.depth === 1 ? 0.11 : 0.08);
+            if (!mobileStaticGraph) {
+                node.append("circle")
+                    .attr("class", "node-aura")
+                    .attr("r", d => d.sc_radius * (d.depth === 0 ? 1.85 : d.depth === 1 ? 1.55 : 1.28))
+                    .attr("fill", d => d.color)
+                    .attr("opacity", d => d.depth === 0 ? 0.15 : d.depth === 1 ? 0.11 : 0.08);
+            }
 
             node.append("circle")
                 .attr("r", d => d.sc_radius)
                 .attr("fill", d => d.depth === 0 ? "url(#galaxy-core-gradient)" : d.icon ? "var(--bg-body-start)" : d.color)
                 .attr("class", d => `node-circle shadow-lg depth-${d.depth}`)
-                .attr("filter", d => d.depth <= 1 ? "url(#galaxy-glow)" : null)
+                .attr("filter", d => !mobileStaticGraph && d.depth <= 1 ? "url(#galaxy-glow)" : null)
                 .on("mouseover", (event, d) => {
+                    if (mobileStaticGraph) return;
                     tooltip.style.opacity = 1;
                     let html = `<strong>${d.id}</strong>${d.children ? `<br/><span class='text-sm text-secondary'>${d.children.length} orbiting skills</span>` : `<br/><span class='text-sm text-secondary'>${getCategory(d)?.id || 'Skill'}</span>`}`;
                     if (d.clickAction) html += `<br/><i class="text-xs text-[var(--text-link)]">${d.clickAction}</i>`;
@@ -1546,6 +1585,7 @@
                     node.style("opacity", n => n.id === d.id || links.some(l => (l.source.id === d.id && l.target.id === n.id) || (l.target.id === d.id && l.source.id === n.id)) ? 1 : 0.3);
                 })
                 .on("mousemove", (event) => {
+                    if (mobileStaticGraph) return;
                     const bounds = svgEl.getBoundingClientRect();
                     // On mobile, keep tooltip from overflowing right edge
                     let left = event.clientX - bounds.left + 20;
@@ -1556,6 +1596,7 @@
                     tooltip.style.top = (event.clientY - bounds.top + 20) + "px";
                 })
                 .on("mouseout", (event) => {
+                    if (mobileStaticGraph) return;
                     tooltip.style.opacity = 0;
                     d3.select(event.currentTarget).attr("stroke", null).attr("stroke-width", null);
                     link.attr("stroke", "var(--text-link)").attr("stroke-opacity", null);
@@ -1584,13 +1625,13 @@
                 .text(d => d.id.split(/\s|-/).map(part => part[0]).join('').slice(0, 3).toUpperCase())
                 .attr("class", "node-initials pointer-events-none");
 
-            node.append("text")
+            node.filter(d => !mobileStaticGraph || d.depth <= 1).append("text")
                 .attr("dy", d => d.sc_radius + (d.depth === 0 ? 22 : d.depth === 1 ? 17 : 14))
                 .attr("text-anchor", "middle")
                 .text(d => d.id)
                 .attr("class", d => `node-text depth-${d.depth} text-[10px] sm:text-xs pointer-events-none`);
 
-            simulation.on("tick", () => {
+            const renderGraph = () => {
                 nodes.forEach(d => {
                     const padding = d.sc_radius + (d.depth === 1 ? 42 : 26);
                     d.x = Math.max(-width / 2 + padding, Math.min(width / 2 - padding, d.x));
@@ -1599,7 +1640,13 @@
                 
                 link.attr("d", getPath);
                 node.attr("transform", d => `translate(${d.x},${d.y})`);
-            });
+            };
+
+            if (mobileStaticGraph) {
+                renderGraph();
+            } else {
+                simulation.on("tick", renderGraph);
+            }
 
             function drag(simulation) {
                 function dragstarted(event, d) {

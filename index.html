@@ -53,21 +53,26 @@
                 <style>.no-scrollbar-inline::-webkit-scrollbar { display: none; }</style>
                 <span id="nav-glider" aria-hidden="true"></span>
                 <li class="shrink-0"><a href="#about" class="nav-link text-[13.5px] sm:text-base py-1 no-scrollbar-inline" data-target="about">About</a></li>
-                <li class="shrink-0"><a href="#skills" class="nav-link text-[13.5px] sm:text-base py-1" data-target="skills">Skills</a></li>
                 <li class="shrink-0"><a href="#works" class="nav-link text-[13.5px] sm:text-base py-1" data-target="works">Works</a></li>
                 <li class="shrink-0"><a href="#certificates" class="nav-link text-[13.5px] sm:text-base py-1" data-target="certificates">Certificates</a></li>
+                <li class="shrink-0"><a href="#skills" class="nav-link text-[13.5px] sm:text-base py-1" data-target="skills">Skills</a></li>
                 <li class="shrink-0"><a href="#blog" class="nav-link text-[13.5px] sm:text-base py-1" data-target="blog">Blog</a></li>
-                <li class="shrink-0"><a href="#terminal" class="nav-link text-[13.5px] sm:text-base py-1" data-target="terminal">Terminal</a></li>
                 <li class="shrink-0"><a href="#contact" class="nav-link text-[13.5px] sm:text-base py-1" data-target="contact">Contact</a></li>
             </ul>
         </nav>
 
-        <button id="theme-toggle" class="absolute top-2 right-4 sm:static sm:ml-4 p-1.5 sm:p-2 rounded-full text-primary hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">
-            <div class="relative w-5 h-5 sm:w-6 sm:h-6">
-                <svg id="sun-icon" class="h-5 w-5 sm:h-6 sm:w-6 absolute inset-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 5a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1zM4.222 4.222a1 1 0 0 1 1.414 0l1.414 1.414a1 1 0 0 1-1.414 1.414L4.222 5.636a1 1 0 0 1 0-1.414zm15.556 0a1 1 0 0 1 0 1.414l-1.414 1.414a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 0 1 1.414 0zM12 17a5 5 0 1 0 0-10a5 5 0 0 0 0 10zm0 4a1 1 0 0 1-1-1v-2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1zM2 12a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1zm18 0a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zM5.636 18.364a1 1 0 0 1-1.414 0l-1.414-1.414a1 1 0 1 1 1.414-1.414l1.414 1.414a1 1 0 0 1 0 1.414zm14.142 0a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 1 1 1.414 1.414l-1.414 1.414z"></path></svg>
-                <svg id="moon-icon" class="h-5 w-5 sm:h-6 sm:w-6 absolute inset-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.293 13.293A8 8 0 0 1 6.707 2.707a8.001 8.001 0 1 0 10.586 10.586z"></path></svg>
-            </div>
-        </button>
+        <div class="header-actions absolute top-2 right-4 sm:static sm:ml-4 flex items-center gap-2">
+            <button id="terminal-shortcut" class="terminal-shortcut p-1.5 sm:px-3 sm:py-2 rounded-full text-primary transition-colors duration-300" type="button" aria-label="Open terminal">
+                <span class="hidden sm:inline font-mono text-xs font-bold">~/terminal</span>
+                <span class="sm:hidden font-mono text-[11px] font-bold tracking-wide">Terminal</span>
+            </button>
+            <button id="theme-toggle" class="p-1.5 sm:p-2 rounded-full text-primary hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">
+                <div class="relative w-5 h-5 sm:w-6 sm:h-6">
+                    <svg id="sun-icon" class="h-5 w-5 sm:h-6 sm:w-6 absolute inset-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 5a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1zM4.222 4.222a1 1 0 0 1 1.414 0l1.414 1.414a1 1 0 0 1-1.414 1.414L4.222 5.636a1 1 0 0 1 0-1.414zm15.556 0a1 1 0 0 1 0 1.414l-1.414 1.414a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 0 1 1.414 0zM12 17a5 5 0 1 0 0-10a5 5 0 0 0 0 10zm0 4a1 1 0 0 1-1-1v-2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1zM2 12a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1zm18 0a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zM5.636 18.364a1 1 0 0 1-1.414 0l-1.414-1.414a1 1 0 1 1 1.414-1.414l1.414 1.414a1 1 0 0 1 0 1.414zm14.142 0a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 1 1 1.414 1.414l-1.414 1.414z"></path></svg>
+                    <svg id="moon-icon" class="h-5 w-5 sm:h-6 sm:w-6 absolute inset-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.293 13.293A8 8 0 0 1 6.707 2.707a8.001 8.001 0 1 0 10.586 10.586z"></path></svg>
+                </div>
+            </button>
+        </div>
     </header>
 
     <main class="w-full max-w-6xl">
@@ -150,15 +155,16 @@
         </section>
 
         <section id="terminal" class="section-container">
-            <div class="p-4 sm:p-6 lg:p-10">
-                <div class="mx-auto max-w-4xl rounded-xl overflow-hidden shadow-2xl dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-gray-300 dark:border-gray-700/50 flex flex-col font-mono text-xs sm:text-sm md:text-base bg-[#f5f5f5] dark:bg-[#0a0a0a] text-slate-800 dark:text-green-400 relative transition-colors duration-300 h-[70svh] min-h-[320px] sm:h-[500px]">
-                    <div class="bg-[#e4e4e4] dark:bg-[#1e1e1e] p-3 flex items-center justify-between border-b border-gray-300 dark:border-black select-none transition-colors duration-300">
+            <div class="terminal-shell p-4 sm:p-6 lg:p-10">
+                <div class="terminal-window mx-auto max-w-4xl rounded-xl overflow-hidden shadow-2xl dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-gray-300 dark:border-gray-700/50 flex flex-col font-mono text-xs sm:text-sm md:text-base bg-[#f5f5f5] dark:bg-[#0a0a0a] text-slate-800 dark:text-green-400 relative transition-colors duration-300 h-[70svh] min-h-[320px] sm:h-[500px]">
+                    <div class="terminal-titlebar bg-[#e4e4e4] dark:bg-[#1e1e1e] p-3 flex items-center justify-between border-b border-gray-300 dark:border-black select-none transition-colors duration-300">
                         <div class="flex space-x-2">
                             <div class="w-3.5 h-3.5 rounded-full bg-red-400 dark:bg-red-500 hover:bg-red-500 dark:hover:bg-red-600 transition-colors shadow-inner"></div>
                             <div class="w-3.5 h-3.5 rounded-full bg-yellow-400 dark:bg-yellow-500 hover:bg-yellow-500 dark:hover:bg-yellow-600 transition-colors shadow-inner"></div>
                             <div class="w-3.5 h-3.5 rounded-full bg-green-400 dark:bg-green-500 hover:bg-green-500 dark:hover:bg-green-600 transition-colors shadow-inner"></div>
                         </div>
-                        <p class="text-xs text-slate-500 dark:text-gray-400 absolute left-1/2 -translate-x-1/2 font-semibold tracking-wider font-sans transition-colors duration-300 hidden sm:block">naveen-portfolio -- -bash</p>
+                        <p class="terminal-title text-xs text-slate-500 dark:text-gray-400 absolute left-1/2 -translate-x-1/2 font-semibold tracking-wider font-sans transition-colors duration-300 hidden sm:block">naveen-portfolio -- -bash</p>
+                        <p class="terminal-mobile-chip hidden text-[10px] uppercase tracking-[0.18em] font-bold">interactive shell</p>
                     </div>
                     <div id="terminal-body" class="p-3 sm:p-6 flex-grow overflow-y-auto cursor-text no-scrollbar selection:bg-slate-300 dark:selection:bg-green-700 selection:text-black dark:selection:text-white" onclick="document.getElementById('terminal-input').focus()">
                         <div id="terminal-output" class="leading-relaxed whitespace-pre-wrap break-words"></div>
@@ -187,6 +193,10 @@
         </section>
 
     </main>
+
+    <footer class="site-credit w-full max-w-6xl px-4 pb-6 sm:pb-8 text-center">
+        <p>Made with love by <span>Naveen Jayaraj</span></p>
+    </footer>
 
     <div id="node-editor-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm" onclick="this.style.display='none'">
         <div class="relative p-6 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl max-w-sm w-full max-h-[85svh] overflow-y-auto shadow-2xl flex flex-col gap-4 text-primary mx-4" onclick="event.stopPropagation()">
