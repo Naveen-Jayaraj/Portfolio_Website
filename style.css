@@ -344,9 +344,66 @@
             border: 2px solid transparent;
         }
         #terminal-input { caret-color: var(--text-primary); }
+        .terminal-line {
+            margin-bottom: 0.45rem;
+            max-width: 100%;
+        }
+        .terminal-command-line {
+            display: flex;
+            align-items: baseline;
+            gap: 0.35rem;
+            padding: 0.42rem 0.55rem;
+            border: 1px solid color-mix(in srgb, var(--text-link) 18%, transparent);
+            border-radius: 0.75rem;
+            background: color-mix(in srgb, var(--text-link) 7%, transparent);
+        }
+        .terminal-command-input {
+            color: var(--text-primary);
+            overflow-wrap: anywhere;
+        }
         .terminal-output-command { color: var(--text-link); }
-        .terminal-output-text { color: var(--text-primary); white-space: pre-wrap; }
-        .terminal-output-error { color: #c94c4c; } /* Classier red */
+        .terminal-output-text {
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            padding-left: 0.2rem;
+        }
+        .terminal-output-muted {
+            color: var(--text-secondary);
+            padding: 0.5rem 0.65rem;
+            border-left: 2px solid color-mix(in srgb, var(--text-link) 45%, transparent);
+            background: color-mix(in srgb, var(--card-bg) 55%, transparent);
+            border-radius: 0.65rem;
+        }
+        .terminal-output-error {
+            color: #c94c4c;
+            padding: 0.5rem 0.65rem;
+            border-left: 2px solid #c94c4c;
+            background: rgba(201, 76, 76, 0.08);
+            border-radius: 0.65rem;
+        }
+        .terminal-output-label {
+            display: inline-flex;
+            margin-bottom: 0.45rem;
+            color: var(--text-link);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .terminal-inline-code {
+            color: var(--text-link);
+            font-weight: 700;
+        }
+        .terminal-suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr));
+            gap: 0.35rem 0.7rem;
+            margin-top: 0.2rem;
+        }
+        .terminal-suggestion-grid span {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
         .terminal-help-command { color: var(--text-link); font-weight: 600; } /* Changed from purple */
         .terminal-help-description { color: var(--text-secondary); }
 
@@ -831,6 +888,10 @@
 
     .skill-galaxy {
         min-height: 460px;
+    }
+
+    #network-canvas {
+        touch-action: none;
     }
 
     .skill-galaxy::before {

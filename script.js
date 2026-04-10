@@ -927,9 +927,16 @@
         let gameKeyListener;
 
         const skillsData = { 'Languages': 'Python, JavaScript, SQL, HTML/CSS', 'AI/ML': 'TensorFlow, PyTorch, Scikit-learn, YOLOv8, OpenCV, Pandas', 'Backend': 'Node.js, Flask, REST APIs', 'Frontend': 'React, Tailwind CSS, HTML5', 'Tools': 'Docker, Git/GitHub, GCP, VS Code' };
+        const baseTerminalCommands = ['help', 'about', 'socials', 'resume', 'projects', 'blog', 'skills', 'contact', 'theme', 'repo', 'donut', 'matrix', 'whoami', 'echo', 'clear', 'exit', 'logout', 'su', 'sudo'];
+        const adminTerminalCommands = ['glitch', 'hack_target', 'addcmd', 'delcmd'];
+        const getTerminalCommands = () => {
+            const dynamicCommands = window.dynamicCommandsCache ? Object.keys(window.dynamicCommandsCache) : [];
+            const adminCommands = isAdminMode ? adminTerminalCommands : [];
+            return [...new Set([...baseTerminalCommands, ...adminCommands, ...dynamicCommands])].sort();
+        };
         const printToTerminal = (html, styleClass = 'terminal-output-text') => {
             const line = document.createElement('div');
-            line.className = styleClass;
+            line.className = `terminal-line ${styleClass}`;
             line.innerHTML = html;
             terminalOutput.appendChild(line);
             terminalBody.scrollTop = terminalBody.scrollHeight;
@@ -937,7 +944,41 @@
         const getTerminalPromptHTML = () => isAdminMode ? `<span class="text-red-500 mr-2 font-bold whitespace-nowrap">admin@portfolio:#</span>` : `<span class="text-blue-600 dark:text-blue-400 mr-2 font-bold whitespace-nowrap transition-colors duration-300">guest@portfolio:~$</span>`;
 
         const printCommand = (command) => {
-            printToTerminal(`${getTerminalPromptHTML()} <span class="text-slate-800 dark:text-gray-300 font-mono transition-colors duration-300">${command}</span>`);
+            printToTerminal(`${getTerminalPromptHTML()} <span class="terminal-command-input">${command || '&nbsp;'}</span>`, 'terminal-command-line');
+        };
+
+        const completeTerminalInput = () => {
+            const rawValue = terminalInput.value;
+            const trimmedStart = rawValue.trimStart();
+            const leadingSpace = rawValue.slice(0, rawValue.length - trimmedStart.length);
+            const [partialCommand = '', ...rest] = trimmedStart.split(/\s+/);
+
+            if (rest.length > 0) return;
+
+            const normalizedPartial = partialCommand.toLowerCase();
+            const matches = getTerminalCommands().filter(command => command.startsWith(normalizedPartial));
+
+            if (matches.length === 0) {
+                printToTerminal(`No command starts with <span class="terminal-inline-code">${partialCommand || '(empty)'}</span>.`, 'terminal-output-muted');
+                return;
+            }
+
+            if (matches.length === 1) {
+                terminalInput.value = `${leadingSpace}${matches[0]} `;
+                return;
+            }
+
+            const commonPrefix = matches.reduce((prefix, command) => {
+                let i = 0;
+                while (i < prefix.length && i < command.length && prefix[i] === command[i]) i++;
+                return prefix.slice(0, i);
+            });
+
+            if (commonPrefix.length > normalizedPartial.length) {
+                terminalInput.value = `${leadingSpace}${commonPrefix}`;
+            }
+
+            printToTerminal(`<span class="terminal-output-label">autocomplete</span><div class="terminal-suggestion-grid">${matches.map(command => `<span>${command}</span>`).join('')}</div>`, 'terminal-output-muted');
         };
 
         const executeCommand = async (cmd) => {
@@ -1285,6 +1326,12 @@
                 return;
             }
 
+            if (e.key === 'Tab' && !isEffectActive) {
+                e.preventDefault();
+                completeTerminalInput();
+                return;
+            }
+
             if (e.key === 'Enter' && !isEffectActive) {
                 const command = terminalInput.value.trim();
                 printCommand(command);
@@ -1396,11 +1443,23 @@
             coreGradient.append("stop").attr("offset", "100%").attr("stop-color", "var(--text-accent)");
 
             const g = svg.append("g");
+            let mobilePanned = false;
             if (!mobileStaticGraph) {
                 svg.call(d3.zoom()
                     .scaleExtent([0.35, 3.4])
                     .on("zoom", (event) => g.attr("transform", event.transform))
                 );
+            } else {
+                const panState = { x: 0, y: 0 };
+                svg.call(d3.drag()
+                    .filter(event => !event.ctrlKey && event.button !== 2)
+                    .on("start", () => { mobilePanned = false; })
+                    .on("drag", (event) => {
+                        mobilePanned = true;
+                        panState.x += event.dx;
+                        panState.y += event.dy;
+                        g.attr("transform", `translate(${panState.x},${panState.y})`);
+                    }));
             }
 
             const defaultData = {
@@ -1603,11 +1662,15 @@
                     node.style("opacity", 1);
                 })
                 .on("click", (event, d) => {
+                    if (mobilePanned) {
+                        mobilePanned = false;
+                        return;
+                    }
                     if (isAdminMode) {
                         window.openNodeEditor(d.id);
                     } else {
                         const categoryName = d.children ? `${d.children.length} orbiting skills` : getCategory(d)?.id || 'Skill';
-                        window.showMessageBox(d.clickAction || `${d.id} · ${categoryName}`);
+                        window.showMessageBox(d.clickAction || `${d.id} - ${categoryName}`);
                     }
                 });
 
