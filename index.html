@@ -6,8 +6,8 @@
     <meta name="description" content="AI Engineer and Full-Stack Developer Portfolio showcasing AI systems, interactive projects, certifications, and technical blog posts.">
     <title>Naveen Jayaraj | AI Engineer Portfolio</title>
     <script>
-        const initTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        if (initTheme === 'dark') document.documentElement.classList.add('dark');
+        const initTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.classList.add(initTheme === 'light' ? 'light' : 'dark');
     </script>
     <link id="favicon-link" rel="icon" href="assets/logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +44,9 @@
     <div id="cursor-aura"></div>
 
     <header class="sticky-header relative w-full max-w-4xl rounded-xl p-2 sm:p-4 mb-4 sm:mb-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-0">
-        <img id="header-logo" src="" alt="Naveen Jayaraj Logo" class="w-10 h-10 sm:w-16 sm:h-16 rounded-md object-contain flex-shrink-0 self-start sm:self-auto ml-2 sm:ml-0">
+        <a href="#about" class="flex-shrink-0 self-start sm:self-auto ml-2 sm:ml-0" aria-label="Go to About section">
+            <img id="header-logo" src="" alt="Naveen Jayaraj Logo" class="w-10 h-10 sm:w-16 sm:h-16 rounded-md object-contain">
+        </a>
         
         <nav class="flex items-center w-full sm:w-auto px-2 sm:px-0 mt-1 sm:mt-0 overflow-hidden">
             <ul class="flex items-center justify-start sm:justify-end gap-x-4 sm:gap-6 font-semibold overflow-x-auto w-full whitespace-nowrap pb-1 no-scrollbar" style="scrollbar-width: none; -ms-overflow-style: none;">
@@ -80,9 +82,9 @@
                     </div>
                 </div>
                 <h2 class="text-4xl sm:text-6xl font-extrabold mb-2"><span class="hero-name min-h-[3.5rem] inline-block animate-pulse bg-slate-200/50 dark:bg-slate-700/50 rounded text-transparent w-64">&nbsp;</span></h2>
-                <p class="text-lg mb-6 font-semibold text-primary"><span class="inline-block min-h-[1.5rem] animate-pulse bg-slate-200/50 dark:bg-slate-700/50 rounded text-transparent w-48">&nbsp;</span></p>
+                <p class="hero-tagline text-lg mb-6 font-semibold text-primary"><span class="inline-block min-h-[1.5rem] animate-pulse bg-slate-200/50 dark:bg-slate-700/50 rounded text-transparent w-48">&nbsp;</span></p>
                 <div class="mb-4">
-                    <p class="leading-relaxed max-w-4xl mx-auto text-left sm:text-center text-base sm:text-lg min-h-[5rem] animate-pulse bg-slate-200/50 dark:bg-slate-700/50 rounded">&nbsp;</p>
+                    <p class="about-summary leading-relaxed max-w-4xl mx-auto text-left sm:text-center text-base sm:text-lg min-h-[5rem] animate-pulse bg-slate-200/50 dark:bg-slate-700/50 rounded">&nbsp;</p>
                 </div>
                 <div class="mt-4 mb-2 text-center">
                     <strong class="text-primary text-sm sm:text-base">You can find me across the web. Try typing <code class="text-[var(--text-link)] dark:text-[var(--text-link)] font-mono p-1 rounded bg-black/5 dark:bg-white/5">socials</code> into the terminal!</strong>

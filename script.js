@@ -130,6 +130,21 @@
             setTimeout(() => messageBox.remove(), 3500);
         }
 
+        const improveSummaryContent = (rawHtml = '') => {
+            const template = document.createElement('template');
+            template.innerHTML = rawHtml || '';
+            template.content.querySelectorAll('[style]').forEach(el => el.removeAttribute('style'));
+
+            const normalizedText = template.content.textContent.replace(/\s+/g, ' ').trim();
+            const currentSummary = 'I build high-impact AI solutions that bridge the gap between research and the real world. With expertise in computer vision, automation, and full-stack systems, I create tools that enhance safety, boost efficiency, and drive smarter decisions. From detecting road hazards in real-time with YOLOv8 at RedBus to deploying wildfire detection systems, my work focuses on creating tangible, positive change. I thrive on turning complex problems into elegant, functional applications.';
+
+            if (normalizedText === currentSummary) {
+                return 'I build practical AI and full-stack systems that turn complex ideas into useful products. My work spans computer vision, automation, and web tools, with projects ranging from YOLOv8 road-hazard detection at RedBus to wildfire-monitoring workflows.';
+            }
+
+            return template.innerHTML.trim() || rawHtml;
+        };
+
         const applyTheme = (theme) => {
             // --- Check if Matrix Mode is active ---
             if (docElement.classList.contains('matrix-mode')) {
@@ -177,7 +192,7 @@
             }
         };
 
-        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
         applyTheme(savedTheme); // Sets initial theme and logo
 
         themeToggleBtn.addEventListener('click', () => {
@@ -221,6 +236,16 @@
                 setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
             });
         });
+
+        const logoHomeLink = document.querySelector('a[aria-label="Go to About section"]');
+        if (logoHomeLink) {
+            logoHomeLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                history.pushState(null, null, '#about');
+                showSection('about');
+                setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+            });
+        }
 
         // Global Reveal Observer Engine
         const initRevealObserver = () => {
@@ -362,7 +387,7 @@
                         if(isAdminMode) { heroNameEl.contentEditable="true"; heroNameEl.classList.add('border-b', 'border-dashed', 'border-red-500'); }
                     }
                     if (heroTaglineEl) { 
-                        heroTaglineEl.className = 'text-lg transition-all duration-300';
+                        heroTaglineEl.className = 'hero-tagline text-lg mb-6 font-semibold text-primary transition-all duration-300';
                         if(isAdminMode) { 
                             heroTaglineEl.textContent = config.hero_tagline;
                             heroTaglineEl.contentEditable="true"; heroTaglineEl.classList.add('border-b', 'border-dashed', 'border-red-500'); 
@@ -385,8 +410,8 @@
                         }
                     }
                     if (aboutTextEl) { 
-                        aboutTextEl.className = 'leading-relaxed max-w-4xl mx-auto text-left sm:text-center text-base sm:text-lg transition-all duration-300';
-                        aboutTextEl.innerHTML = config.about_text; 
+                        aboutTextEl.className = 'about-summary leading-relaxed max-w-4xl mx-auto text-left sm:text-center text-base sm:text-lg transition-all duration-300';
+                        aboutTextEl.innerHTML = improveSummaryContent(config.about_text); 
                         if(isAdminMode) { aboutTextEl.contentEditable="true"; aboutTextEl.classList.add('border', 'border-dashed', 'border-red-500', 'p-2'); }
                     }
                     const emailLink = document.querySelector('a[href^="mailto:"]');
@@ -805,7 +830,7 @@
                     } else {
                         stopMatrixRain();
                         document.getElementById('vanta-bg').style.background = '';
-                        applyTheme(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+                        applyTheme(localStorage.getItem('theme') || 'dark');
                     }
                     konamiIndex = 0;
                 }
@@ -1017,7 +1042,7 @@
                     } else {
                         stopMatrixRain();
                         document.getElementById('vanta-bg').style.background = '';
-                        applyTheme(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+                        applyTheme(localStorage.getItem('theme') || 'dark');
                     }
                     break;
                 case 'whoami': 
